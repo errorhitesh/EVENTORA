@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="wsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#134E4A" />
+      <stop offset="50%" stop-color="#0F766E" />
+      <stop offset="100%" stop-color="#14B8A6" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#wsGrad)" />
+  <circle cx="210" cy="170" r="160" fill="#2DD4BF" opacity="0.2" />
+  <circle cx="630" cy="350" r="210" fill="#0D9488" opacity="0.15" />
+  <g transform="translate(365, 175)">
+    <rect x="0" y="5" width="70" height="48" rx="8" fill="none" stroke="#CCFBF1" stroke-width="5" />
+    <path d="M-10,65 h90" stroke="#CCFBF1" stroke-width="6" stroke-linecap="round" />
+    <path d="M22,25 l-8,8 l8,8 M48,25 l8,8 l-8,8" stroke="#CCFBF1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <text x="400" y="320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">HANDS-ON WORKSHOPS</text>
+  <text x="400" y="355" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" fill="#F0FDFA" text-anchor="middle">EVENTORA MASTERCLASSES</text>
+</svg>

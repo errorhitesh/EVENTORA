@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Registrations – EVENTORA</title>
+  <meta name="description" content="Manage and view your event passes, check-in barcodes, and registration statuses on EVENTORA.">
+  <meta name="theme-color" content="#5B4BDB">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6.5.1 CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <style>
+    .registrations-header {
+      background: var(--hero-gradient);
+      padding: 3.5rem 0 2.5rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .stats-card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .stats-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .stats-icon-box {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: var(--radius-md);
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    [data-theme="dark"] .stats-icon-box {
+      background: rgba(139, 92, 246, 0.2);
+    }
+    .registration-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-normal);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 1.75rem;
+      align-items: center;
+    }
+    .registration-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-strong);
+    }
+    .reg-thumb-img {
+      width: 140px;
+      height: 110px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+    }
+    .reg-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .status-confirmed {
+      background: rgba(16, 185, 129, 0.12);
+      color: #10B981;
+    }
+    .status-cancelled {
+      background: rgba(239, 68, 68, 0.12);
+      color: #EF4444;
+    }
+
+    @media (max-width: 900px) {
+      .registration-card {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+      .reg-thumb-img {
+        width: 100%;
+        height: 160px;
+      }
+      .stats-card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION BAR
+       ============================================================ -->
+  <header class="site-header" role="banner">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">
+          <i class="fa-solid fa-bolt-lightning"></i>
+        </div>
+        <span>EVENTORA</span>
+      </a>
+
+      <nav class="nav-menu" role="navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="events.html" class="nav-link">Explore Events</a>
+        <a href="index.html#categoriesSection" class="nav-link">Categories</a>
+        <a href="registrations.html" class="nav-link active">
+          My Registrations
+          <span class="nav-badge-pill reg-count-badge" style="display: none;">0</span>
+        </a>
+        <a href="index.html#whyChooseUs" class="nav-link">About Us</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <a href="events.html" class="btn btn-primary">
+          <i class="fa-solid fa-compass"></i> Explore Events
+        </a>
+        <button class="mobile-menu-btn" aria-label="Open mobile menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+  <aside class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div class="mobile-drawer-header">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+        <span>EVENTORA</span>
+      </a>
+      <button class="mobile-drawer-close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-drawer-links">
+      <a href="index.html" class="mobile-drawer-link"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="events.html" class="mobile-drawer-link"><i class="fa-solid fa-compass"></i> Explore Events</a>
+      <a href="registrations.html" class="mobile-drawer-link active"><i class="fa-solid fa-ticket"></i> My Registrations</a>
+    </div>
+  </aside>
+
+  <main>
+    <!-- Header Banner -->
+    <div class="registrations-header">
+      <div class="container">
+        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+          <a href="index.html" class="footer-link">Home</a>
+          <i class="fa-solid fa-chevron-right" style="font-size: 0.65rem;"></i>
+          <span>My Registrations</span>
+        </div>
+        <h1 class="section-title" style="margin-bottom: 0.5rem;">My Event Registrations</h1>
+        <p class="section-subtitle">
+          View your confirmed passes, download digital QR tickets, or manage bookings saved on this browser.
+        </p>
+
+        <!-- Stats Overview Cards -->
+        <div class="stats-card-grid">
+          <div class="stats-card">
+            <div class="stats-icon-box">
+              <i class="fa-solid fa-ticket"></i>
+            </div>
+            <div>
+              <div style="font-size: 1.85rem; font-weight: 800; color: var(--text-main);" id="statTotalPasses">0</div>
+              <div style="font-size: 0.8125rem; color: var(--text-muted); font-weight: 600;">Total Booked Passes</div>
+            </div>
+          </div>
+
+          <div class="stats-card">
+            <div class="stats-icon-box" style="color: #10B981; background: rgba(16, 185, 129, 0.12);">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+              <div style="font-size: 1.85rem; font-weight: 800; color: #10B981;" id="statConfirmedPasses">0</div>
+              <div style="font-size: 0.8125rem; color: var(--text-muted); font-weight: 600;">Confirmed &amp; Active</div>
+            </div>
+          </div>
+
+          <div class="stats-card">
+            <div class="stats-icon-box" style="color: #EF4444; background: rgba(239, 68, 68, 0.12);">
+              <i class="fa-solid fa-circle-xmark"></i>
+            </div>
+            <div>
+              <div style="font-size: 1.85rem; font-weight: 800; color: #EF4444;" id="statCancelledPasses">0</div>
+              <div style="font-size: 0.8125rem; color: var(--text-muted); font-weight: 600;">Cancelled</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main List Container -->
+    <div class="container" style="padding-top: 3rem; padding-bottom: 6rem;">
+
+      <!-- Filter by Email Toolbar -->
+      <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-grow: 1; max-width: 500px;">
+          <div class="search-input-wrapper" style="width: 100%;">
+            <i class="fa-solid fa-filter search-input-icon"></i>
+            <input type="email" id="emailFilterInput" class="search-input" placeholder="Filter by attendee email (e.g. vikram.rao@example.com)..." aria-label="Filter by email">
+            <button type="button" class="search-clear-btn" id="clearEmailFilterBtn"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; align-items: center;">
+          <select id="statusFilterSelect" class="form-control no-icon" style="padding: 0.5rem 0.85rem; width: auto; font-size: 0.875rem;">
+            <option value="all">All Statuses</option>
+            <option value="Confirmed">Confirmed Only</option>
+            <option value="Cancelled">Cancelled Only</option>
+          </select>
+          <button class="btn btn-secondary btn-sm" id="resetRegistrationsDataBtn" title="Reset demo seed data">
+            <i class="fa-solid fa-rotate-left"></i> Reset Demo Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Registrations Records List -->
+      <div id="registrationsListContainer">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="noRegistrationsState" class="empty-state" style="display: none;">
+        <div class="empty-state-icon">
+          <i class="fa-solid fa-ticket-simple"></i>
+        </div>
+        <h3 class="empty-state-title">No Registrations Found</h3>
+        <p class="empty-state-desc">
+          You haven't registered for any events yet, or no bookings match the specified email address.
+        </p>
+        <a href="events.html" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-compass"></i> Discover &amp; Book Events
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ============================================================
+       MODALS: CANCELLATION CONFIRMATION & DIGITAL TICKET PREVIEW
+       ============================================================ -->
+
+  <!-- Custom Cancellation Confirmation Modal -->
+  <div class="modal-overlay" id="cancelConfirmModal" role="dialog" aria-modal="true" aria-labelledby="cancelModalTitle">
+    <div class="modal-box" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="cancelModalTitle" style="color: #EF4444;">
+          <i class="fa-solid fa-triangle-exclamation"></i> Cancel Registration?
+        </h3>
+        <button class="modal-close-btn" id="cancelModalCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--text-body); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">
+          Are you sure you want to cancel your registration for <strong id="cancelEventTitleText" style="color: var(--text-main);">...</strong>?
+        </p>
+        <div style="background: var(--bg-surface-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid #EF4444; font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+          Your pass (<span id="cancelRegIdText" style="font-family: var(--font-mono); font-weight: 700;"></span>) will be marked as Cancelled and your reserved seats will be released back to the event capacity.
+        </div>
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <button class="btn btn-secondary" id="dismissCancelBtn">Keep Registration</button>
+          <button class="btn btn-danger" id="confirmCancelBtn">
+            <i class="fa-solid fa-xmark"></i> Confirm Cancellation
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Digital Ticket Pass Viewer Modal -->
+  <div class="modal-overlay" id="ticketViewModal" role="dialog" aria-modal="true">
+    <div class="modal-box modal-box-wide">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-qrcode" style="color: var(--primary);"></i> Digital Entry Ticket</h3>
+        <button class="modal-close-btn" id="ticketViewCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div id="ticketViewContent"></div>
+        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+          <button class="btn btn-primary" onclick="window.print();">
+            <i class="fa-solid fa-print"></i> Print Ticket
+          </button>
+          <button class="btn btn-secondary" id="ticketViewDismissBtn">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <div>&copy; 2026 EVENTORA Inc. All rights reserved.</div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="events.html" class="footer-link">Explore Events</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+  <button class="back-to-top" id="backToTopBtn"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/registration.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    // Registrations Page Logic
+    const RegistrationsController = {
+      pendingCancelId: null,
+
+      init() {
+        this.render();
+        this.bindEvents();
+      },
+
+      bindEvents() {
+        // Email filter input
+        const emailInput = document.getElementById('emailFilterInput');
+        if (emailInput) {
+          emailInput.addEventListener('input', () => this.render());
+        }
+
+        // Status select filter
+        const statusSelect = document.getElementById('statusFilterSelect');
+        if (statusSelect) {
+          statusSelect.addEventListener('change', () => this.render());
+        }
+
+        // Clear email filter
+        const clearBtn = document.getElementById('clearEmailFilterBtn');
+        if (clearBtn) {
+          clearBtn.addEventListener('click', () => {
+            if (emailInput) emailInput.value = '';
+            this.render();
+          });
+        }
+
+        // Cancel modal triggers
+        const cancelModal = document.getElementById('cancelConfirmModal');
+        const closeCancel = () => {
+          if (cancelModal) cancelModal.classList.remove('active');
+          document.body.style.overflow = '';
+          this.pendingCancelId = null;
+        };
+
+        const cancelModalClose = document.getElementById('cancelModalCloseBtn');
+        const dismissCancel = document.getElementById('dismissCancelBtn');
+        const confirmCancel = document.getElementById('confirmCancelBtn');
+
+        if (cancelModalClose) cancelModalClose.addEventListener('click', closeCancel);
+        if (dismissCancel) dismissCancel.addEventListener('click', closeCancel);
+
+        if (confirmCancel) {
+          confirmCancel.addEventListener('click', () => {
+            if (this.pendingCancelId) {
+              const success = StorageService.cancelRegistration(this.pendingCancelId);
+              if (success) {
+                showToast('Registration cancelled. Seat availability restored.', 'info');
+                RegistrationManager.updateNavBadge();
+                this.render();
+              }
+              closeCancel();
+            }
+          });
+        }
+
+        // Ticket view modal triggers
+        const ticketModal = document.getElementById('ticketViewModal');
+        const closeTicket = () => {
+          if (ticketModal) ticketModal.classList.remove('active');
+          document.body.style.overflow = '';
+        };
+        const ticketClose = document.getElementById('ticketViewCloseBtn');
+        const ticketDismiss = document.getElementById('ticketViewDismissBtn');
+        if (ticketClose) ticketClose.addEventListener('click', closeTicket);
+        if (ticketDismiss) ticketDismiss.addEventListener('click', closeTicket);
+
+        // Reset demo data button
+        const resetBtn = document.getElementById('resetRegistrationsDataBtn');
+        if (resetBtn) {
+          resetBtn.addEventListener('click', () => {
+            StorageService.remove(STORAGE_KEYS.REGISTRATIONS);
+            StorageService.remove(STORAGE_KEYS.CAPACITY);
+            StorageService.getRegistrations(); // re-seeds initial
+            showToast('Reset to demo registrations state.', 'success');
+            RegistrationManager.updateNavBadge();
+            this.render();
+          });
+        }
+      },
+
+      render() {
+        const allList = StorageService.getRegistrations();
+        const emailFilter = (document.getElementById('emailFilterInput')?.value || '').trim().toLowerCase();
+        const statusFilter = document.getElementById('statusFilterSelect')?.value || 'all';
+
+        // Update Stats Counters
+        const statTotal = document.getElementById('statTotalPasses');
+        const statConfirmed = document.getElementById('statConfirmedPasses');
+        const statCancelled = document.getElementById('statCancelledPasses');
+
+        if (statTotal) statTotal.textContent = allList.length;
+        if (statConfirmed) statConfirmed.textContent = allList.filter(r => r.status === 'Confirmed').length;
+        if (statCancelled) statCancelled.textContent = allList.filter(r => r.status === 'Cancelled').length;
+
+        // Apply Filters
+        let filtered = [...allList];
+        if (emailFilter) {
+          filtered = filtered.filter(r => r.email && r.email.toLowerCase().includes(emailFilter));
+        }
+        if (statusFilter !== 'all') {
+          filtered = filtered.filter(r => r.status === statusFilter);
+        }
+
+        const container = document.getElementById('registrationsListContainer');
+        const emptyState = document.getElementById('noRegistrationsState');
+        if (!container) return;
+
+        if (filtered.length === 0) {
+          container.innerHTML = '';
+          if (emptyState) emptyState.style.display = 'block';
+          return;
+        }
+
+        if (emptyState) emptyState.style.display = 'none';
+
+        container.innerHTML = filtered.map(r => {
+          const isConfirmed = r.status === 'Confirmed';
+          const regDateStr = new Date(r.createdAt).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+          });
+
+          return `
+            <div class="registration-card" data-reg-id="${r.registrationId}">
+              <div>
+                <img src="${r.eventImage}" alt="${r.eventTitle}" class="reg-thumb-img" onerror="this.src='assets/images/tech-fallback.svg'">
+              </div>
+
+              <div>
+                <div style="display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.4rem; flex-wrap: wrap;">
+                  <span class="reg-status-pill ${isConfirmed ? 'status-confirmed' : 'status-cancelled'}">
+                    <i class="fa-solid ${isConfirmed ? 'fa-circle-check' : 'fa-circle-xmark'}"></i>
+                    ${r.status}
+                  </span>
+                  <span style="font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 700; color: var(--primary);">
+                    #${r.registrationId}
+                  </span>
+                  <span style="font-size: 0.75rem; color: var(--text-muted);">
+                    Booked on ${regDateStr}
+                  </span>
+                </div>
+
+                <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem; line-height: 1.35;">
+                  ${r.eventTitle}
+                </h3>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                  <div><i class="fa-regular fa-calendar-check" style="color: var(--primary); margin-right: 0.35rem;"></i> ${r.displayDate}</div>
+                  <div><i class="fa-solid fa-location-dot" style="color: var(--primary); margin-right: 0.35rem;"></i> ${r.eventVenue}</div>
+                  <div><i class="fa-regular fa-user" style="color: var(--primary); margin-right: 0.35rem;"></i> ${r.fullName} (${r.email})</div>
+                  <div><i class="fa-solid fa-ticket" style="color: var(--primary); margin-right: 0.35rem;"></i> ${r.ticketCount} Pass (${r.isFree ? 'Free' : '₹' + r.totalAmount.toLocaleString('en-IN')})</div>
+                </div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.6rem; justify-content: center;">
+                <button class="btn btn-primary btn-sm view-pass-btn" data-id="${r.registrationId}">
+                  <i class="fa-solid fa-qrcode"></i> View Pass
+                </button>
+                <a href="event-details.html?id=${r.eventId}" class="btn btn-secondary btn-sm">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> Event Page
+                </a>
+                ${isConfirmed ? `
+                  <button class="btn btn-ghost btn-sm cancel-reg-btn" data-id="${r.registrationId}" data-title="${r.eventTitle}" style="color: #EF4444;">
+                    <i class="fa-solid fa-xmark"></i> Cancel Booking
+                  </button>
+                ` : `
+                  <span style="font-size: 0.75rem; color: #EF4444; text-align: center; font-weight: 700;">Booking Cancelled</span>
+                `}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        this.bindCardActions();
+      },
+
+      bindCardActions() {
+        // View Pass Buttons
+        document.querySelectorAll('.view-pass-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            const record = StorageService.getRegistrationById(id);
+            if (record) {
+              const modal = document.getElementById('ticketViewModal');
+              const content = document.getElementById('ticketViewContent');
+              if (modal && content) {
+                content.innerHTML = `
+                  <div class="ticket-pass-wrapper" id="printableDirectPass">
+                    <div class="ticket-pass-header">
+                      <div class="ticket-brand"><i class="fa-solid fa-bolt-lightning"></i> EVENTORA PASS</div>
+                      <div class="ticket-id-pill">${record.registrationId}</div>
+                    </div>
+                    <div class="ticket-pass-body">
+                      <div style="font-size: 0.8125rem; font-weight: 700; color: ${record.status === 'Confirmed' ? '#10B981' : '#EF4444'}; text-transform: uppercase; margin-bottom: 0.4rem;">
+                        <i class="fa-solid ${record.status === 'Confirmed' ? 'fa-circle-check' : 'fa-circle-xmark'}"></i> ${record.status} Registration
+                      </div>
+                      <h3 class="ticket-event-name">${record.eventTitle}</h3>
+                      <div class="ticket-details-grid">
+                        <div class="ticket-detail-cell">
+                          <span class="ticket-detail-label">Attendee Name</span>
+                          <span class="ticket-detail-val">${record.fullName}</span>
+                        </div>
+                        <div class="ticket-detail-cell">
+                          <span class="ticket-detail-label">Email Address</span>
+                          <span class="ticket-detail-val">${record.email}</span>
+                        </div>
+                        <div class="ticket-detail-cell">
+                          <span class="ticket-detail-label">Date & Time</span>
+                          <span class="ticket-detail-val">${record.displayDate}<br><small style="color: var(--text-muted);">${record.eventTime}</small></span>
+                        </div>
+                        <div class="ticket-detail-cell">
+                          <span class="ticket-detail-label">Venue</span>
+                          <span class="ticket-detail-val">${record.eventVenue}</span>
+                        </div>
+                        <div class="ticket-detail-cell">
+                          <span class="ticket-detail-label">Pass Count</span>
+                          <span class="ticket-detail-val">${record.ticketCount} Attendee${record.ticketCount > 1 ? 's' : ''}</span>
+                        </div>
+                        <div class="ticket-detail-cell">
+                          <span class="ticket-detail-label">Amount</span>
+                          <span class="ticket-detail-val" style="color: var(--primary);">${record.isFree ? 'FREE ENTRY' : '₹' + record.totalAmount.toLocaleString('en-IN')}</span>
+                        </div>
+                      </div>
+                      <div class="ticket-pass-divider">
+                        <div class="ticket-notch-left"></div>
+                        <div class="ticket-divider-line"></div>
+                        <div class="ticket-notch-right"></div>
+                      </div>
+                      <div class="ticket-qr-section">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                          <svg class="ticket-qr-code" viewBox="0 0 100 100">
+                            <rect width="100" height="100" fill="white" />
+                            <path d="M10,10 h30 v30 h-30 z M15,15 v20 h20 v-20 z M20,20 h10 v10 h-10 z" fill="#0F172A" />
+                            <path d="M60,10 h30 v30 h-30 z M65,15 v20 h20 v-20 z M70,20 h10 v10 h-10 z" fill="#0F172A" />
+                            <path d="M10,60 h30 v30 h-30 z M15,65 v20 h20 v-20 z M20,70 h10 v10 h-10 z" fill="#0F172A" />
+                            <circle cx="50" cy="50" r="8" fill="#5B4BDB" />
+                            <rect x="55" y="60" width="8" height="25" fill="#0F172A" />
+                            <rect x="70" y="60" width="18" height="8" fill="#0F172A" />
+                          </svg>
+                          <div>
+                            <div style="font-size: 0.8125rem; font-weight: 700; color: var(--text-main);">Gate Check-in Barcode</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">Registered on ${new Date(record.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+                          </div>
+                        </div>
+                        <div class="ticket-barcode-box">
+                          <div class="ticket-barcode-lines">||||| | |||| |||</div>
+                          <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">${record.registrationId}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                `;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+              }
+            }
+          });
+        });
+
+        // Cancel Registration Buttons
+        document.querySelectorAll('.cancel-reg-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            const title = btn.getAttribute('data-title');
+            this.pendingCancelId = id;
+
+            const modal = document.getElementById('cancelConfirmModal');
+            const titleText = document.getElementById('cancelEventTitleText');
+            const idText = document.getElementById('cancelRegIdText');
+
+            if (titleText) titleText.textContent = title;
+            if (idText) idText.textContent = id;
+
+            if (modal) {
+              modal.classList.add('active');
+              document.body.style.overflow = 'hidden';
+            }
+          });
+        });
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      RegistrationsController.init();
+    });
+  </script>
+</body>
+</html>

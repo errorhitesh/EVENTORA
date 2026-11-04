@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="eduGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#312E81" />
+      <stop offset="50%" stop-color="#3730A3" />
+      <stop offset="100%" stop-color="#4338CA" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#eduGrad)" />
+  <circle cx="200" cy="160" r="160" fill="#A5B4FC" opacity="0.2" />
+  <circle cx="640" cy="350" r="200" fill="#818CF8" opacity="0.15" />
+  <g transform="translate(365, 175)">
+    <polygon points="35,10 70,28 35,46 0,28" fill="none" stroke="#E0E7FF" stroke-width="5" />
+    <path d="M12,35 v18 c0,10 12,18 23,18 s23,-8 23,-18 v-18" fill="none" stroke="#E0E7FF" stroke-width="5" />
+  </g>
+  <text x="400" y="320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">EDUCATION &amp; LEARNING</text>
+  <text x="400" y="355" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" fill="#EEF2FF" text-anchor="middle">EVENTORA ACADEMY</text>
+</svg>

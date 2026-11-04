@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="musicGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4C0519" />
+      <stop offset="50%" stop-color="#831843" />
+      <stop offset="100%" stop-color="#BE185D" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#musicGrad)" />
+  <circle cx="180" cy="120" r="150" fill="#FB7185" opacity="0.2" />
+  <circle cx="680" cy="380" r="200" fill="#F43F5E" opacity="0.15" />
+  <g transform="translate(370, 170)">
+    <path d="M40,20 v50 a18,18 0 1,1 -15,-15 h15 v-35 h35 v35 a18,18 0 1,1 -15,-15" fill="none" stroke="#FDA4AF" stroke-width="5" stroke-linecap="round" />
+  </g>
+  <text x="400" y="320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">LIVE MUSIC &amp; CONCERTS</text>
+  <text x="400" y="355" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" fill="#FECDD3" text-anchor="middle">EVENTORA SOUNDSTAGE</text>
+</svg>
