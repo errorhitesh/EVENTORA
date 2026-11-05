@@ -514,3 +514,4 @@ const EventsController = {
 document.addEventListener('DOMContentLoaded', () => {
   EventsController.init();
 });
+

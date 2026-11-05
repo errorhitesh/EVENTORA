@@ -297,3 +297,4 @@ const StorageService = {
     return this.get(STORAGE_KEYS.USER_SESSION, null);
   }
 };
+

@@ -904,3 +904,4 @@ const FALLBACK_CATEGORY_IMAGES = {
   workshops: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500"><rect width="800" height="500" fill="%23134e4a"/><text x="400" y="250" font-family="sans-serif" font-size="32" font-weight="bold" fill="%232dd4bf" text-anchor="middle">Hands-on Workshops</text></svg>',
   entertainment: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500"><rect width="800" height="500" fill="%23701a75"/><text x="400" y="250" font-family="sans-serif" font-size="32" font-weight="bold" fill="%23e879f9" text-anchor="middle">Entertainment %26 Comedy</text></svg>'
 };
+

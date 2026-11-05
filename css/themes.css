@@ -123,3 +123,4 @@ body {
   color: var(--text-body);
   transition: background-color var(--transition-normal), color var(--transition-normal);
 }
+

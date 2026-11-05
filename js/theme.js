@@ -116,3 +116,4 @@ const ThemeManager = {
 document.addEventListener('DOMContentLoaded', () => {
   ThemeManager.init();
 });
+

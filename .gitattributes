@@ -1,0 +1,31 @@
+# Normalize line endings to LF across the repository.
+# This prevents the CRLF<->LF churn caused by core.autocrlf=true on Windows.
+* text=auto
+
+# Explicitly treat these as text (SVG is XML text, not binary).
+*.html text
+*.css text
+*.js text
+*.mjs text
+*.json text
+*.md text
+*.txt text
+*.xml text
+*.svg text
+*.yml text
+*.yaml text
+
+# Explicitly mark binaries so Git never tries to merge/normalize them.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.mp3 binary
+*.mp4 binary
+*.mov binary
