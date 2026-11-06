@@ -13,6 +13,12 @@
     return;
   }
 
+  // Do not run canvas cursor trail on mobile touch screens
+  const isMobileOrTouch = (window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches) || window.innerWidth <= 768;
+  if (isMobileOrTouch) {
+    return;
+  }
+
   // Create canvas overlay
   let canvas = document.getElementById('eventoraCursorCanvas');
   if (!canvas) {
@@ -23,8 +29,9 @@
       'position: fixed',
       'top: 0',
       'left: 0',
-      'width: 100vw',
-      'height: 100vh',
+      'width: 100%',
+      'height: 100%',
+      'max-width: 100%',
       'pointer-events: none',
       'z-index: 2147483647',
       'display: block'
@@ -34,12 +41,12 @@
   }
 
   const ctx = canvas.getContext('2d');
-  let width = (canvas.width = window.innerWidth);
+  let width = (canvas.width = document.documentElement.clientWidth || window.innerWidth);
   let height = (canvas.height = window.innerHeight);
   let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
   function resizeCanvas() {
-    width = window.innerWidth;
+    width = document.documentElement.clientWidth || window.innerWidth;
     height = window.innerHeight;
     canvas.width = Math.floor(width * dpr);
     canvas.height = Math.floor(height * dpr);

@@ -7,10 +7,12 @@
 
 const AuthManager = {
   activeTab: 'login', // 'login' | 'signup'
+  googleClientId: '874621893412-gsi1eventora99authdemoapp.apps.googleusercontent.com',
 
   init() {
     this.ensureAuthModal();
     this.ensureGoogleModal();
+    this.initGoogleAuthApi();
     this.updateNavbarAuth();
     this.bindGlobalEvents();
 
@@ -18,6 +20,108 @@ const AuthManager = {
     window.addEventListener('eventora:authChange', () => {
       this.updateNavbarAuth();
     });
+  },
+
+  /**
+   * Initialize Google Identity Services (GSI) Client API
+   */
+  initGoogleAuthApi() {
+    const attemptInit = () => {
+      if (typeof window.google !== 'undefined' && window.google.accounts && window.google.accounts.id) {
+        try {
+          window.google.accounts.id.initialize({
+            client_id: this.googleClientId,
+            callback: this.handleGoogleCredentialResponse.bind(this),
+            auto_select: false,
+            cancel_on_tap_outside: true
+          });
+
+          this.renderGoogleButton();
+
+          window.addEventListener('eventora:themeChange', () => {
+            this.renderGoogleButton();
+          });
+        } catch (err) {
+          console.warn('[Google Auth API] Client initialization notice:', err);
+        }
+      } else {
+        setTimeout(attemptInit, 350);
+      }
+    };
+
+    attemptInit();
+  },
+
+  /**
+   * Render official Google Sign-In button into modal slot
+   */
+  renderGoogleButton() {
+    const slot = document.getElementById('g_id_signin_slot');
+    if (!slot || typeof window.google === 'undefined' || !window.google.accounts?.id) return;
+
+    try {
+      slot.innerHTML = '';
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const parentWidth = slot.parentElement?.offsetWidth;
+      const viewportMax = Math.max(220, (window.innerWidth || 360) - 64);
+      const targetWidth = parentWidth && parentWidth > 50 ? Math.min(parentWidth, 340) : Math.min(viewportMax, 300);
+      const containerWidth = Math.max(220, Math.min(targetWidth, 340));
+
+      window.google.accounts.id.renderButton(slot, {
+        theme: isDark ? 'filled_black' : 'outline',
+        size: 'large',
+        type: 'standard',
+        shape: 'rectangular',
+        text: 'continue_with',
+        logo_alignment: 'left',
+        width: containerWidth
+      });
+    } catch (e) {
+      console.warn('Google GSI renderButton:', e);
+    }
+  },
+
+  /**
+   * Process credential response from Google Identity Services API (JWT token)
+   */
+  handleGoogleCredentialResponse(response) {
+    if (!response || !response.credential) {
+      if (typeof showToast === 'function') {
+        showToast('Google Sign-In failed or was cancelled.', 'error');
+      }
+      return;
+    }
+
+    const payload = this.parseJwt(response.credential);
+    if (!payload || !payload.email) {
+      if (typeof showToast === 'function') {
+        showToast('Unable to parse Google authentication token.', 'error');
+      }
+      return;
+    }
+
+    const fullName = payload.name || payload.given_name || payload.email.split('@')[0];
+    const email = payload.email;
+    const avatar = payload.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=F97316&color=000`;
+
+    this.completeGoogleLogin(fullName, email, avatar);
+    this.closeModal();
+  },
+
+  /**
+   * Decode standard JWT payload from Google Identity Services
+   */
+  parseJwt(token) {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    } catch (e) {
+      return null;
+    }
   },
 
   /**
@@ -39,9 +143,12 @@ const AuthManager = {
             </button>
           </div>
 
-          <div class="modal-body" style="padding: 1.75rem 2rem;">
-            <!-- Social Login Options -->
-            <div style="margin-bottom: 1.25rem;">
+          <div class="modal-body" style="padding: 1.5rem 1.75rem;">
+            <!-- Official Google Identity Services API Container -->
+            <div class="google-auth-api-wrapper" style="margin-bottom: 1.25rem;">
+              <div id="g_id_signin_slot" class="g-id-signin-btn-slot" style="display: flex; justify-content: center; width: 100%; min-height: 44px; margin-bottom: 0.5rem;"></div>
+
+              <!-- Fallback Direct Google Account Sign-In Button -->
               <button type="button" class="btn btn-secondary btn-block google-signin-btn" id="googleAuthTriggerBtn">
                 <svg width="20" height="20" viewBox="0 0 48 48" style="flex-shrink: 0;">
                   <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -49,7 +156,7 @@ const AuthManager = {
                   <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                   <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                 </svg>
-                <span style="font-weight: 700; color: var(--text-main);">Continue with Google</span>
+                <span style="font-weight: 700; color: var(--text-main);">One-Click Google Sign-In</span>
               </button>
             </div>
 
@@ -432,6 +539,9 @@ const AuthManager = {
     this.switchTab(tab);
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    // Refresh Google GSI button for active theme/width
+    this.renderGoogleButton();
   },
 
   closeModal() {
@@ -718,7 +828,7 @@ const AuthManager = {
         container.innerHTML = `
           <div class="user-profile-menu">
             <button class="user-profile-btn" aria-label="User Menu" aria-haspopup="true">
-              <img src="${currentUser.avatar}" alt="${currentUser.fullName}" class="user-nav-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.fullName)}&background=5B4BDB&color=fff'">
+              <img src="${currentUser.avatar}" alt="${currentUser.fullName}" class="user-nav-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.fullName)}&background=F97316&color=000'">
               <span class="user-nav-name">${firstName}</span>
               <i class="fa-solid fa-chevron-down user-nav-chevron"></i>
             </button>
@@ -780,7 +890,7 @@ const AuthManager = {
       } else {
         slot.innerHTML = `
           <div style="background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.85rem;">
-            <img src="${currentUser.avatar}" alt="${currentUser.fullName}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.fullName)}&background=5B4BDB&color=fff'">
+            <img src="${currentUser.avatar}" alt="${currentUser.fullName}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.fullName)}&background=F97316&color=000'">
             <div style="min-width: 0; flex-grow: 1;">
               <div style="font-size: 0.9375rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${currentUser.fullName}</div>
               <div style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${currentUser.email}</div>

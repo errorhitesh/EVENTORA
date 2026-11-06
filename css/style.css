@@ -654,7 +654,7 @@ ol {
 .floating-mini-widget {
   position: absolute;
   bottom: -100px;
-  right: -12px;
+  right: 0px;
   background: var(--bg-surface-elevated);
   border: 1.5px solid var(--border-strong);
   border-radius: var(--radius-sm);
