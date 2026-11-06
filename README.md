@@ -98,7 +98,14 @@
   - Vector QR code for entrance scanning.
   - "Print Pass" functionality using CSS `@media print` rules.
 
-### 4. Toast Notification Drawer
+### 4. User Authentication & Google Social Sign-In
+- **Existing User Login:** Standard email and password authentication verified against persistent storage with field validations and a 1-click "Fill Demo User" option for swift testing.
+- **New User Registration (Sign Up):** Complete onboarding form with full name, email, phone number, password strength enforcement, password confirmation matching, and terms acceptance.
+- **One-Click Google / Gmail Sign-In:** Official Google OAuth-styled account picker dialog allowing instant authentication with verified Google accounts (`aarav.sharma@gmail.com`, `vikram.rao@gmail.com`) or custom Gmail addresses.
+- **Active Session & Profile Dropdown:** Displays user avatar, first name, and a sleek dropdown menu with "My Registrations", "Explore Events", and "Sign Out" actions.
+- **Form Auto-fill Integration:** Seamlessly pre-populates attendee details when booking passes and automatically filters bookings to the active user's email on the registrations page.
+
+### 5. Toast Notification Drawer
 - Non-intrusive floating toasts for success, error, warning, and informational feedback with auto-dismissal and manual close buttons.
 
 ---
@@ -121,6 +128,7 @@ eventora/
 │   ├── data.js                  # 16 realistic, diverse future events (Late 2026 - 2027)
 │   ├── storage.js               # Safe LocalStorage wrapper with capacity & duplicate tracking
 │   ├── theme.js                 # Dark/Light mode manager with FOUC prevention
+│   ├── auth.js                  # User authentication (Login, Sign Up, Google OAuth simulation)
 │   ├── registration.js          # Form validation engine, ticket pass generator, modal handlers
 │   ├── events.js                # Search, category chips, sorting, quick view, countdowns
 │   └── app.js                   # Master orchestrator (Sticky header, mobile drawer, toasts)

@@ -335,5 +335,10 @@
   .countdown-box-label {
     font-size: 0.65rem;
   }
+
+  .nav-actions .nav-auth-slot {
+    display: none;
+  }
 }
+
 

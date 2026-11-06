@@ -9,7 +9,9 @@ const STORAGE_KEYS = {
   CAPACITY: 'eventora_event_capacity',
   THEME: 'eventora_theme',
   FAVORITES: 'eventora_favorites',
-  USER_SESSION: 'eventora_user_session'
+  USER_SESSION: 'eventora_user_session',
+  USERS: 'eventora_users',
+  CURRENT_USER: 'eventora_current_user'
 };
 
 const StorageService = {
@@ -290,10 +292,119 @@ const StorageService = {
   },
 
   /* ============================================================
+     USER ACCOUNTS & AUTHENTICATION
+     ============================================================ */
+
+  getUsers() {
+    let users = this.get(STORAGE_KEYS.USERS);
+    if (!Array.isArray(users)) {
+      const defaultUsers = [
+        {
+          id: 'usr-101',
+          fullName: 'Vikramaditya Rao',
+          email: 'vikram.rao@example.com',
+          password: 'Password123!',
+          phone: '+91 98765 43210',
+          organization: 'Apex Neural Labs',
+          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+          provider: 'email',
+          createdAt: new Date(Date.now() - 3600000 * 24 * 30).toISOString()
+        },
+        {
+          id: 'usr-102',
+          fullName: 'Aarav Sharma',
+          email: 'aarav.sharma@gmail.com',
+          password: 'Password123!',
+          phone: '+91 98123 45678',
+          organization: 'IIT Bombay',
+          avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+          provider: 'google',
+          createdAt: new Date(Date.now() - 3600000 * 24 * 14).toISOString()
+        }
+      ];
+      this.set(STORAGE_KEYS.USERS, defaultUsers);
+      return defaultUsers;
+    }
+    return users;
+  },
+
+  findUserByEmail(email) {
+    if (!email) return null;
+    const clean = email.trim().toLowerCase();
+    const users = this.getUsers();
+    return users.find(u => u.email && u.email.toLowerCase() === clean) || null;
+  },
+
+  createUser(userData) {
+    const users = this.getUsers();
+    const id = 'usr-' + (100 + users.length + 1) + '-' + Math.floor(100 + Math.random() * 900);
+    const newUser = {
+      id,
+      fullName: userData.fullName.trim(),
+      email: userData.email.trim().toLowerCase(),
+      password: userData.password || '',
+      phone: userData.phone ? userData.phone.trim() : '',
+      organization: userData.organization ? userData.organization.trim() : '',
+      avatar: userData.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.fullName)}&background=5B4BDB&color=fff`,
+      provider: userData.provider || 'email',
+      createdAt: new Date().toISOString()
+    };
+    users.push(newUser);
+    this.set(STORAGE_KEYS.USERS, users);
+    return newUser;
+  },
+
+  getCurrentUser() {
+    return this.get(STORAGE_KEYS.CURRENT_USER, null);
+  },
+
+  setCurrentUser(user) {
+    if (!user) {
+      this.remove(STORAGE_KEYS.CURRENT_USER);
+      return null;
+    }
+    const sessionUser = {
+      id: user.id,
+      fullName: user.fullName,
+      email: user.email,
+      phone: user.phone || '',
+      organization: user.organization || '',
+      avatar: user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=5B4BDB&color=fff`,
+      provider: user.provider || 'email',
+      loggedInAt: new Date().toISOString()
+    };
+    this.set(STORAGE_KEYS.CURRENT_USER, sessionUser);
+
+    // Also update USER_SESSION for form auto-fills
+    this.set(STORAGE_KEYS.USER_SESSION, {
+      fullName: sessionUser.fullName,
+      email: sessionUser.email,
+      phone: sessionUser.phone
+    });
+
+    window.dispatchEvent(new CustomEvent('eventora:authChange', { detail: { user: sessionUser } }));
+    return sessionUser;
+  },
+
+  logoutUser() {
+    this.remove(STORAGE_KEYS.CURRENT_USER);
+    window.dispatchEvent(new CustomEvent('eventora:authChange', { detail: { user: null } }));
+    return true;
+  },
+
+  /* ============================================================
      USER RECENT PROFILE HELPER
      ============================================================ */
 
   getUserSession() {
+    const current = this.getCurrentUser();
+    if (current) {
+      return {
+        fullName: current.fullName,
+        email: current.email,
+        phone: current.phone
+      };
+    }
     return this.get(STORAGE_KEYS.USER_SESSION, null);
   }
 };

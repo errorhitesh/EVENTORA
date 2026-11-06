@@ -14,9 +14,8 @@ const ThemeManager = {
     if (savedTheme === 'dark' || savedTheme === 'light') {
       this.setTheme(savedTheme, false);
     } else {
-      // 2. Check system OS preference
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      this.setTheme(prefersDark ? 'dark' : 'light', false);
+      // 2. Default to signature Claude Code Dark theme
+      this.setTheme('dark', false);
     }
 
     // 3. Attach listeners to all theme toggle buttons
@@ -57,27 +56,28 @@ const ThemeManager = {
   },
 
   updateToggleIcons() {
+    const isDark = this.currentTheme === 'dark';
     const togglers = document.querySelectorAll('.theme-toggle-btn');
     togglers.forEach(btn => {
       const icon = btn.querySelector('i');
       const text = btn.querySelector('.theme-text');
 
-      if (this.currentTheme === 'dark') {
-        if (icon) {
-          icon.className = 'fa-solid fa-sun';
-          icon.setAttribute('style', 'color: #FBBF24;');
-        }
-        if (text) text.textContent = 'Light Mode';
-        btn.setAttribute('aria-label', 'Switch to Light Mode');
-        btn.setAttribute('title', 'Switch to Light Mode');
-      } else {
+      if (isDark) {
         if (icon) {
           icon.className = 'fa-solid fa-moon';
-          icon.setAttribute('style', 'color: #6366F1;');
+          icon.setAttribute('style', 'color: var(--primary); font-size: 1.1rem;');
         }
         if (text) text.textContent = 'Dark Mode';
-        btn.setAttribute('aria-label', 'Switch to Dark Mode');
-        btn.setAttribute('title', 'Switch to Dark Mode');
+        btn.setAttribute('aria-label', 'Dark Mode active. Click to switch to Light Mode.');
+        btn.setAttribute('title', 'Dark Mode (Click to switch to Light Mode)');
+      } else {
+        if (icon) {
+          icon.className = 'fa-solid fa-sun';
+          icon.setAttribute('style', 'color: var(--primary); font-size: 1.1rem;');
+        }
+        if (text) text.textContent = 'Light Mode';
+        btn.setAttribute('aria-label', 'Light Mode active. Click to switch to Dark Mode.');
+        btn.setAttribute('title', 'Light Mode (Click to switch to Dark Mode)');
       }
     });
   },

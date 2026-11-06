@@ -130,9 +130,11 @@ const RegistrationManager = {
       const nameInput = document.getElementById('regFullName');
       const emailInput = document.getElementById('regEmail');
       const phoneInput = document.getElementById('regPhone');
-      if (nameInput && !nameInput.value) nameInput.value = session.fullName || '';
-      if (emailInput && !emailInput.value) emailInput.value = session.email || '';
-      if (phoneInput && !phoneInput.value) phoneInput.value = session.phone || '';
+      const orgInput = document.getElementById('regOrganization');
+      if (nameInput) nameInput.value = session.fullName || '';
+      if (emailInput) emailInput.value = session.email || '';
+      if (phoneInput && session.phone) phoneInput.value = session.phone || '';
+      if (orgInput && session.organization) orgInput.value = session.organization || '';
     }
 
     this.ticketCount = 1;
