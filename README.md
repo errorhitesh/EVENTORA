@@ -1,29 +1,81 @@
-# EVENTORA – Modern Event Discovery & Management Platform
+# ⚡ EVENTORA – Retro Pixel Event Discovery & Ticketing Platform
 
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=flat-square)](#)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square)](#)
+[![Theme](https://img.shields.io/badge/Aesthetic-100%25%20Retro%20Pixel%20%7C%20Claude%20Code-orange?style=flat-square)](#)
+[![Version](https://img.shields.io/badge/Version-2.5.0-blue?style=flat-square)](#)
 [![License](https://img.shields.io/badge/License-MIT-purple?style=flat-square)](#)
-[![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Vanilla%20JS-orange?style=flat-square)](#)
+[![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Vanilla%20JS%20ES6%2B-orange?style=flat-square)](#)
 
-> **"Discover Experiences. Create Memories."**
-> A modern, visually rich, and fully functional event management and ticket registration platform built with pure semantic HTML5, modern CSS3 (Flexbox/Grid), and Vanilla JavaScript (ES6+).
-
----
-
-## 🌟 Executive Summary & Project Description
-
-**EVENTORA** is an end-to-end event discovery and pass registration web application tailored for tech conferences, music festivals, startup investment conclaves, academic symposiums, art biennales, and athletic championships. Designed with a SaaS-inspired aesthetic, the platform features a dynamic client-side architecture that eliminates traditional page refreshes while ensuring persistent state management via `LocalStorage`.
+> **"Discover Experiences. Create Memories."**  
+> A high-performance, 100% retro-pixelated, multi-page event discovery and gate pass issuance web application inspired by the signature Claude Code aesthetic (Orange `#F97316`, Deep Black `#09090B`, Crisp White). Built entirely with semantic HTML5, modern modular CSS3, and pure Vanilla JavaScript (ES6+).
 
 ---
 
-## 🎯 Key Objectives
+## 🌟 Executive Summary
 
-1. **Seamless Discovery:** Enable users to effortlessly browse, search, and filter 16+ curated upcoming events across 8 distinct categories.
-2. **Real-Time Responsiveness:** Provide instant, debounced search across event titles, categories, venues, cities, descriptions, and tags.
-3. **Robust Client-Side Validation:** Implement strict validation for participant details (names, email formats, and Indian mobile numbers `+91`) with clear inline error messaging.
-4. **Data Integrity & Duplicate Prevention:** Block duplicate registrations for the same user and event, track real-time seat decrement/increment upon booking or cancellation.
-5. **Persistent Storage:** Store and retrieve bookings, themes, and bookmarks through a serialized `LocalStorage` service.
-6. **Digital Ticket Issuance:** Generate a realistic boarding-pass digital ticket with QR code, check-in barcode, and print-ready stylesheet.
+**EVENTORA** is an end-to-end event management, ticket registration, and gate pass verification platform. It allows attendees to discover upcoming technology summits, music festivals, startup conclaves, academic conferences, athletic championships, and creative masterclasses.
+
+The platform embraces a distinct **8-bit arcade / retro terminal visual identity** without compromising modern web engineering standards: sub-millisecond client-side routing, offline-first LocalStorage persistence, instant QR turnstile gate pass issuance, Google Identity Services authentication, and complete multi-page navigation.
+
+---
+
+## 🎮 Signature Retro Pixel & Claude Code Aesthetic
+
+- **Color Palette:** Signature Claude Orange (`#F97316`), Electric Orange (`#FB923C`), Deep Onyx (`#09090B`), Elevated Surface (`#18181B`), and Crisp White (`#FFFFFF`).
+- **Authentic Google Pixel Typography:** Powered by `Pixelify Sans`, `Silkscreen`, and `VT323` for headers, badges, and terminal readouts.
+- **Sharp 0px Block Geometry:** Zero-radius buttons, cards, modals, and input fields with hard-offset isometric drop shadows (`3px 3px 0px #000000`, `4px 4px 0px var(--primary)`).
+- **Interactive Retro CRT Cursors & Particle Trail:** Custom 8-bit hand and crosshair cursors paired with a physics-based pixel-dust spark trail (`js/cursor-trail.js`).
+- **Bulletproof Inline SVGs:** All core UI controls (Eventora brand lightning bolt, dark/light sun & moon changer, mobile hamburger, close icons, turnstile QR matrix) use self-contained inline vector SVGs to eliminate missing glyph / question mark (`[?]`) tofu boxes under all network conditions.
+
+---
+
+## 📑 Multi-Page Website Architecture
+
+EVENTORA is structured into 8 modular, fully interlinked pages with synchronized headers, mobile slide-out drawers, and 4-column footers:
+
+| Page | File | Purpose & Key Features |
+|---|---|---|
+| **Home** | [`index.html`](index.html) | Split hero section, live countdown timer, interactive search bar, category chips, featured spotlights, benefit showcase, turnstile pass button. |
+| **Explore Events** | [`events.html`](events.html) | Faceted multi-criteria filtering center, Grid vs. List view switcher, active filter tag pills, search keyword parsing, and deep-link URL parameter support (`?q=...&cat=...`). |
+| **Categories Directory** | [`categories.html`](categories.html) | 8 curated domains (Technology, Music, Startups, Sports, Academic, Art, Workshops, Entertainment) with live event counts, tags, and quick-filter routing. |
+| **About Us** | [`about.html`](about.html) | Origin story, 6 core architectural pillars, live system specifications table, verification pipeline, and platform metrics. |
+| **Host an Event** | [`host.html`](host.html) | 5-step organizer onboarding pipeline, organizer inquiry form with instant submission reference generation, and organizer FAQ accordion. |
+| **My Registrations** | [`registrations.html`](registrations.html) | Attendee pass management dashboard, live email lookup, status filters (Confirmed vs. Cancelled), printable boarding pass generator, and self-service cancellation. |
+| **Contact & Support** | [`contact.html`](contact.html) | 3 direct communication channels, encrypted ticket query dispatch form, live status indicator, and attendee help desk accordion. |
+| **Event Details** | [`event-details.html`](event-details.html) | Dynamic query-driven event view (`?id=evt-101`), full schedule timeline, keynote speaker cards, interactive Google Maps directions, and sticky booking sidebar with capacity countdown. |
+
+---
+
+## 🚀 Key Functional Capabilities
+
+### 1. Instant QR Gate Entry Pass System
+- Accessible from the floating hero badge or global action trigger.
+- Opens an instant turnstile gate pass modal powered by `InstantGatePassManager`.
+- Generates a cryptographically unique verification pass with a live green pulse status dot (`LIVE SYSTEM // TURNSTILE GATE READY`), matrix QR code, and ticket ID.
+
+### 2. Google Identity Services & Auth API
+- Integrated with Google's Identity Services (`https://accounts.google.com/gsi/client`).
+- Provides 1-click Google Sign-In with demo personas (`Aarav Sharma`, `Vikram Rao`) or custom Google emails.
+- Standard email/password registration with real-time password strength checking.
+- Session persistence via LocalStorage, dynamic avatar navbar dropdown, and automatic pass pre-filling.
+
+### 3. Registration Engine & Client-Side Validation
+- **Full Name:** Letters and spaces only, minimum 3 characters.
+- **Email:** RFC 5322 compliance regex check.
+- **Phone:** Indian mobile format (`+91` / `0` followed by 10 digits starting with 6-9) and international formats.
+- **Duplicate Prevention:** Prohibits duplicate bookings for the same email address on active events.
+- **Capacity Safe-Guards:** Dynamically decrements remaining seats upon registration and increments them back upon cancellation.
+- **Perforated Boarding Pass:** Generates printable digital ticket with barcode line art, QR code, and print stylesheet (`@media print`).
+
+### 4. Dynamic Theme Engine (Light / Dark Pixel)
+- Fully automated theme switcher supporting user preference and OS system match (`prefers-color-scheme`).
+- Instant SVG icon morphing: Sun SVG in Dark Mode (prompting switch to Light) and Moon SVG in Light Mode (prompting switch to Dark).
+- Persistent state saved to `localStorage` with Zero Flash of Unstyled Content (FOUC).
+
+### 5. Responsive Mobile-First Layout
+- 100% responsive across mobile (320px–480px), tablet (768px), laptop, and ultra-wide displays (1440px+).
+- Zero horizontal scroll clipping or overflow on compact viewports.
+- Touch-friendly full-width navigation drawer with backdrop blur.
 
 ---
 
@@ -31,242 +83,97 @@
 
 | Layer | Technologies | Purpose |
 |---|---|---|
-| **Structure** | Semantic HTML5 | Clean document outline, high accessibility (ARIA), modern form elements. |
-| **Styling** | CSS3, CSS Custom Properties | Responsive Grid & Flexbox layouts, frosted glassmorphism, fluid typography, dark/light themes. |
-| **Typography** | Google Fonts (*Plus Jakarta Sans*, *JetBrains Mono*) | Modern SaaS visual hierarchy and monospaced ticket typography. |
-| **Icons** | Font Awesome 6.5.1 CDN | Crisp iconography for categories, navigation, statuses, and toast alerts. |
-| **Logic** | Vanilla JavaScript (ES6+) | Modular architecture, event delegation, client-side routing, regex validation engines. |
-| **Storage** | LocalStorage API | Persistent client-side database for user registrations, capacity counters, bookmarks, and themes. |
-| **Version Control** | Git & GitHub | Clean branch workflow, structured commits, deployment automation. |
+| **Structure** | Semantic HTML5 | Clean document outlines, ARIA accessibility, modal dialogs, responsive viewports. |
+| **Styling** | Modular CSS3, Flexbox, CSS Grid | Custom CSS properties, retro scanline overlays, pixel borders, print styles. |
+| **Typography** | Google Fonts (*Pixelify Sans*, *Silkscreen*, *VT323*) | Authentic 8-bit arcade aesthetics and terminal code hierarchy. |
+| **Icons** | Custom Inline Pixel SVGs & Font Awesome 6.5.1 | Zero-failure fallback SVGs for core actions; solid icons with strict weight protection. |
+| **Logic** | Vanilla JavaScript (ES6+) | Modular architecture, event delegation, search debounce, modal controllers. |
+| **Authentication** | Google Identity Services (GSI) API | One-tap Google authentication and unified user session management. |
+| **Storage** | Browser LocalStorage API | Persistent storage for bookings, bookmarks, capacity counters, and theme preferences. |
+| **Version Control**| Git & GitHub | Distributed version control and automated GitHub Pages static hosting. |
 
 ---
 
-## 🚀 Key Features Implemented
-
-### 1. Modern SaaS Visual Identity & Theme Engine
-- **Dark & Light Mode Switching:** Toggle themes with automatic system preference detection (`prefers-color-scheme`) and LocalStorage persistence. Zero Flash of Unstyled Content (FOUC).
-- **Refined Color Palette:** Deep Indigo (`#5B4BDB`), Electric Purple (`#8B5CF6`), Emerald Green (`#10B981`), Amber (`#F59E0B`), and Rose (`#EF4444`).
-- **Interactive Micro-Interactions:** Subtle card lift on hover, button glow effects, animated pulse dots for "Selling Fast" badges, and smooth scroll anchors.
-
-### 2. Multi-Page Comprehensive Architecture
-- **Homepage (`index.html`):**
-  - Sticky glassmorphic navbar with active page indicators and mobile drawer menu.
-  - Split Hero section with live attendee metrics and a 3D-styled floating preview card with live second-by-second countdown.
-  - Instant Search Bar with clear button and category selector.
-  - Interactive Category Filter Chips with live event counters.
-  - Featured Events spotlight grid.
-  - Discovery Grid with multi-criteria sorting (Date, Price, Popularity, A-Z) and price filters (Free, Paid, Under ₹1,000).
-  - Spotlight Marquee Event Banner with a 4-digit live countdown timer (Days, Hours, Minutes, Seconds).
-  - "Why Choose Eventora" 6-card benefit showcase.
-  - Call-to-Action banner and comprehensive footer with verified newsletter subscription.
-- **Explore Events Hub (`events.html`):**
-  - Dedicated search and faceted multi-filtering center.
-  - Grid View vs. List View switcher.
-  - Active filter tag pills with 1-click removal.
-  - Deep-link synchronization with URL query parameters (`?cat=...` and `?q=...`).
-- **Event Details View (`event-details.html`):**
-  - Dynamic URL parameter routing (`?id=evt-101`).
-  - High-resolution hero banner with metadata overlays.
-  - Comprehensive agenda timeline with time stamps and speaker topics.
-  - Featured speakers grid with avatars and credentials.
-  - Venue location preview card with direct "Open in Google Maps" integration.
-  - Interactive FAQ accordion.
-  - Sticky booking sidebar with real-time seat capacity meter, registration deadline notice, live event countdown, and "Add to Google Calendar" button.
-  - Related event recommendations.
-- **My Registrations Dashboard (`registrations.html`):**
-  - Metric summary cards: Total passes, Active/Confirmed passes, and Cancelled passes.
-  - Real-time search/filter by attendee email address.
-  - Status filter dropdown (Confirmed vs. Cancelled).
-  - Detailed booking cards with Registration ID (`#EVT-2026-XXXX`), attendee name, venue, pass count, and booking timestamp.
-  - Re-open and print digital entry passes at any time.
-  - Self-service booking cancellation with a custom confirmation modal that instantly restores seat capacity to the event.
-
-### 3. Registration System & JavaScript Form Validation
-- **Modal Integration:** Opens seamlessly from any event card or details page, pre-populating event information.
-- **Validation Rules:**
-  - **Full Name:** Required, letters/spaces only, minimum 3 characters.
-  - **Email Address:** Standard RFC 5322 regex validation (`/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/`).
-  - **Phone Number:** Validates Indian mobile numbers (`^(?:\+91|0)?[6-9]\d{9}$`) as well as international E.164 formats.
-  - **Selected Event:** Must correspond to an active, valid event.
-  - **Terms Checkbox:** Mandatory agreement to code of conduct.
-  - **Duplicate Prevention:** Checks existing records in LocalStorage; blocks duplicate registrations for the same user and active event.
-  - **Capacity Safeguard:** Prohibits registration if remaining capacity is zero.
-  - **Deadline Enforcement:** Prohibits registration if the deadline has passed.
-- **Digital Ticket Pass Output:**
-  - Generates unique ID format (e.g. `EVT-2026-9482`).
-  - Perforated ticket styling with notches and barcode line graphics.
-  - Vector QR code for entrance scanning.
-  - "Print Pass" functionality using CSS `@media print` rules.
-
-### 4. User Authentication & Google Social Sign-In
-- **Existing User Login:** Standard email and password authentication verified against persistent storage with field validations and a 1-click "Fill Demo User" option for swift testing.
-- **New User Registration (Sign Up):** Complete onboarding form with full name, email, phone number, password strength enforcement, password confirmation matching, and terms acceptance.
-- **One-Click Google / Gmail Sign-In:** Official Google OAuth-styled account picker dialog allowing instant authentication with verified Google accounts (`aarav.sharma@gmail.com`, `vikram.rao@gmail.com`) or custom Gmail addresses.
-- **Active Session & Profile Dropdown:** Displays user avatar, first name, and a sleek dropdown menu with "My Registrations", "Explore Events", and "Sign Out" actions.
-- **Form Auto-fill Integration:** Seamlessly pre-populates attendee details when booking passes and automatically filters bookings to the active user's email on the registrations page.
-
-### 5. Toast Notification Drawer
-- Non-intrusive floating toasts for success, error, warning, and informational feedback with auto-dismissal and manual close buttons.
-
----
-
-## 📁 Project Folder Structure
+## 📁 Repository Structure
 
 ```
 eventora/
-├── index.html                   # Primary Homepage (Hero, Search, Featured, Discovery, Benefits, CTA)
-├── events.html                  # Faceted Explore Events page (Grid/List views, deep-linking)
-├── event-details.html           # Deep Event Details page (Agenda, Speakers, Map, Sticky booking)
-├── registrations.html           # My Registrations dashboard (Pass management, Cancellation)
+├── index.html                   # Primary Homepage (Hero, Search, Featured, Turnstile Pass)
+├── events.html                  # Explore Events Hub (Grid/List views, URL query filter)
+├── categories.html              # Browse Categories Directory (8 verticals, quick tags)
+├── about.html                   # About Eventora (Pillars, Specs, Platform Metrics)
+├── host.html                    # Organizer Application Hub & Pipeline
+├── contact.html                 # Support Inquiries & Ticket Query Dispatch
+├── registrations.html           # Attendee Pass Dashboard (Lookup, Print, Cancellation)
+├── event-details.html           # Deep Event Details (Agenda, Speakers, Sticky Sidebar)
 │
 ├── css/
-│   ├── themes.css               # Light/Dark CSS custom properties & color palettes
-│   ├── style.css                # Base reset, layout, cards, navbar, modals, passes, toasts
-│   └── responsive.css           # Breakpoints (Mobile, Tablet, Desktop) & mobile drawer
+│   ├── themes.css               # Signature Claude Code palette, pixel fonts, icon protection
+│   ├── style.css                # Base reset, buttons, cards, modals, boarding passes, toasts
+│   └── responsive.css           # Mobile breakpoints (320px–992px), drawers, overflow guards
 │
 ├── js/
-│   ├── data.js                  # 16 realistic, diverse future events (Late 2026 - 2027)
-│   ├── storage.js               # Safe LocalStorage wrapper with capacity & duplicate tracking
-│   ├── theme.js                 # Dark/Light mode manager with FOUC prevention
-│   ├── auth.js                  # User authentication (Login, Sign Up, Google OAuth simulation)
-│   ├── registration.js          # Form validation engine, ticket pass generator, modal handlers
-│   ├── events.js                # Search, category chips, sorting, quick view, countdowns
-│   └── app.js                   # Master orchestrator (Sticky header, mobile drawer, toasts)
+│   ├── data.js                  # 16 realistic, curated future events (Late 2026 - 2027)
+│   ├── storage.js               # LocalStorage database wrapper (Capacity & Duplicate guard)
+│   ├── theme.js                 # Dark/Light theme manager with Sun/Moon SVG switcher
+│   ├── auth.js                  # Google Auth API, signup/login modals, user sessions
+│   ├── registration.js          # Form validation engine, digital boarding pass generator
+│   ├── events.js                # Instant search, category filters, sorting, countdowns
+│   ├── cursor-trail.js          # Retro 8-bit particle physics cursor spark trail
+│   └── app.js                   # Navigation orchestrator, mobile drawer, toast system
 │
 ├── assets/
-│   ├── images/                  # Category-specific local fallback SVGs
-│   │   ├── tech-fallback.svg
-│   │   ├── music-fallback.svg
-│   │   ├── business-fallback.svg
-│   │   ├── sports-fallback.svg
-│   │   ├── education-fallback.svg
-│   │   ├── art-fallback.svg
-│   │   ├── workshop-fallback.svg
-│   │   └── comedy-fallback.svg
-│   └── icons/                   # Custom icons & badges
+│   └── images/                  # Category-specific fallback vector artwork
 │
 ├── README.md                    # Comprehensive platform documentation
-└── .gitignore                   # Standard Git ignore rules
+└── .gitignore                   # Git ignore configurations
 ```
 
 ---
 
-## 💻 Instructions to Run Locally
+## 💻 Running Locally
 
-Because EVENTORA is built with standards-compliant HTML5, CSS3, and JavaScript, it requires **no build step, compilers, or server installations**.
+Because EVENTORA is built entirely with vanilla technologies, it requires **no compiler, bundler, or Node package installations**:
 
-### Option 1: Direct Browser Launch
-1. Clone or download the repository to your local machine:
-   ```bash
-   git clone https://github.com/your-username/eventora.git
-   cd eventora
-   ```
-2. Double-click `index.html` (or right-click and choose **Open with Google Chrome / Firefox / Edge / Safari**).
+### Option 1: Direct File Launch
+Double-click [`index.html`](index.html) or open it directly in any modern web browser (Chrome, Firefox, Edge, Safari, Brave).
 
 ### Option 2: Using VS Code Live Server
 1. Open the project folder in **Visual Studio Code**.
-2. Install the **Live Server** extension by Ritwick Dey if not already installed.
-3. Right-click `index.html` and click **"Open with Live Server"**.
-4. The site will launch at `http://127.0.0.1:5500/index.html`.
+2. Right-click `index.html` and select **"Open with Live Server"**.
+3. The site opens automatically at `http://127.0.0.1:5500/index.html`.
 
-### Option 3: Using Python or Node.js Static Server
+### Option 3: Using Python or Node
 - **Python 3:**
   ```bash
   python -m http.server 8000
   ```
-  Open `http://localhost:8000` in your browser.
+  Open `http://localhost:8000`.
 - **Node.js (`npx serve`):**
   ```bash
   npx serve .
   ```
-  Open `http://localhost:3000` in your browser.
+  Open `http://localhost:3000`.
 
 ---
 
-## 📸 Screenshots & UI Showcase
+## 🌐 Deployment to GitHub Pages
 
-| View | Description |
-|---|---|
-| **Desktop Homepage** | Clean hero typography, live metrics, floating cards with countdowns, and category chips. |
-| **Dark Theme** | Deep navy palette (`#0A0E17`), high contrast text, and glowing purple accent borders. |
-| **Event Details** | Detailed agenda timeline, keynote speaker cards, map directions, and sticky registration sidebar. |
-| **Digital Ticket Pass** | Perforated pass design with unique `EVT-2026-XXXX` ID, QR code, and barcode lines. |
-| **My Registrations** | Real-time email lookup, active vs. cancelled badge statuses, and self-service cancellation. |
-| **Mobile Drawer** | Touch-friendly drawer menu with slide-in animation and quick theme toggle. |
-
----
-
-## 🌐 Deployment Instructions
-
-EVENTORA is completely client-side and optimized for instant zero-configuration deployment to any modern static hosting provider.
-
-### 1. Deploying to Netlify
-1. Log in to [Netlify](https://www.netlify.com/).
-2. Drag and drop the `eventora` project folder directly into the **Netlify Drop** dashboard, **OR**:
-3. Connect your GitHub repository:
-   - Build Command: *(Leave blank)*
-   - Publish Directory: `.` (Root)
-4. Click **Deploy Site**.
-
-### 2. Deploying to Vercel
-1. Install Vercel CLI: `npm i -g vercel` (or use [Vercel Dashboard](https://vercel.com/)).
-2. Run `vercel` in the project root directory.
-3. Accept default settings. Your site will be deployed in seconds.
-
-### 3. Deploying to GitHub Pages
-1. Push your repository to GitHub:
+1. Push latest changes to your GitHub repository:
    ```bash
-   git add .
-   git commit -m "feat: complete production release of Eventora platform"
-   git branch -M main
-   git remote add origin https://github.com/your-username/eventora.git
-   git push -u origin main
+   git add -A
+   git commit -m "docs: update comprehensive README with pixel architecture and multi-page features"
+   git push origin master
    ```
-2. Navigate to your GitHub repository **Settings** > **Pages**.
-3. Under **Build and deployment**, select **Source:** `Deploy from a branch`.
-4. Select `main` branch and `/ (root)` folder, then click **Save**.
-5. Your live site will be accessible at: `https://your-username.github.io/eventora/`.
-
----
-
-## 📋 Comprehensive Assignment Requirements Checklist
-
-| Requirement | Specification | Status | Implementation Details |
-|---|---|---|---|
-| **Navigation Bar** | Sticky header, brand logo, mobile hamburger drawer, active states | ✅ COMPLETED | Implemented in `style.css` & `app.js` with frosted glass backdrop. |
-| **Hero Section** | Engaging headline, CTAs, metrics, floating cards, live countdown | ✅ COMPLETED | Full split hero with interactive preview and live second countdown. |
-| **Dynamic Search** | Instant filter by name, category, venue, keywords with clear button | ✅ COMPLETED | Handled in `events.js` across 5 distinct search properties. |
-| **Category Filter** | 8 categories with live event counts and 1-click filtering | ✅ COMPLETED | Filter chips in `events.js` with instant grid re-rendering. |
-| **Featured Events** | Attractive cards with category badges, price pills, view details | ✅ COMPLETED | 3 flagship events spotlighted on homepage and details page. |
-| **Upcoming Events** | Responsive grid, 16 realistic future events, multi-sort, pagination | ✅ COMPLETED | 16 events in `data.js` spanning Nov 2026 - Apr 2027 with "Load More". |
-| **Why Choose Eventora** | 6 benefits highlighting pass verification, safety, and zero fees | ✅ COMPLETED | Visually rich grid with dedicated icons in `index.html`. |
-| **Event Details** | Comprehensive data: schedule, speakers, venue map, ticket widget | ✅ COMPLETED | Implemented in `event-details.html` with URL parameter parsing. |
-| **Registration Form** | Form with full name, email, phone, event, terms checkbox | ✅ COMPLETED | Complete validation in `registration.js` with custom regex checks. |
-| **Client Validation** | Indian mobile validation, email RFC format, name constraints | ✅ COMPLETED | Custom regex with live visual feedback and inline error messages. |
-| **Duplicate Prevention**| Prevent same email registering twice for active event | ✅ COMPLETED | Tested & enforced via `StorageService.isUserRegisteredForEvent()`. |
-| **Capacity Management** | Decrements seats upon booking; restores upon cancellation | ✅ COMPLETED | Tracked in LocalStorage under `eventora_event_capacity`. |
-| **Digital Ticket Pass** | Attractive boarding pass with unique ID, QR code, and print button | ✅ COMPLETED | Generates `EVT-2026-XXXX` with SVG QR code and print layout. |
-| **My Registrations** | Retrieve records, filter by email, persistent across refreshes | ✅ COMPLETED | Implemented in `registrations.html` with stats and pass viewer. |
-| **Cancellation Flow** | Custom modal confirmation (not standard alert), status update | ✅ COMPLETED | Dialog modal in `registrations.html` updating status to "Cancelled". |
-| **Dark/Light Mode** | Theme toggle with LocalStorage persistence and system sync | ✅ COMPLETED | Implemented in `theme.js` & `themes.css` with FOUC prevention. |
-| **Countdown Timers** | Live days/hours/minutes/seconds updating every second | ✅ COMPLETED | Live intervals in `events.js` and `event-details.html`. |
-| **Toast Notifications**| Floating modern alerts for success, errors, and bookmarks | ✅ COMPLETED | Built-in custom toast drawer in `app.js`. |
-| **Responsiveness** | Mobile (320px), Tablet (768px), Laptop, Desktop (1440px+) | ✅ COMPLETED | Tested across all breakpoints in `responsive.css`. |
-| **Code Quality** | Clean vanilla ES6+, zero console errors, semantic HTML5 | ✅ COMPLETED | Validated with Node syntax checks and automated integrity tests. |
-
----
-
-## 🔮 Future Roadmap & Enhancements
-
-- [ ] **Offline PWA Support:** Add a service worker (`sw.js`) and manifest file for offline ticket viewing.
-- [ ] **Web Share API:** Native mobile sheet sharing for event details.
-- [ ] **Google Calendar Sync:** Full `.ics` file generation alongside Google Calendar links.
-- [ ] **Email Receipt Dispatch:** Webhook integration with SendGrid or Resend for automated PDF ticket emailing.
+2. In your repository on GitHub, navigate to **Settings** > **Pages**.
+3. Under **Build and deployment**, set **Source** to `Deploy from a branch`.
+4. Select `master` branch and `/ (root)` folder, then click **Save**.
+5. Your live application will be available at:  
+   `https://errorhitesh.github.io/EVENTORA/`
 
 ---
 
 ## 📄 License & Credits
 
-- Developed for the **Web Designing Assignment: Event Management Website**.
-- Designed and built by the **EVENTORA Team**.
-- Open source under the **MIT License**.
+- Designed and engineered with ❤️ for the **Event Management Platform Showcase**.
+- Open source under the [MIT License](LICENSE).
