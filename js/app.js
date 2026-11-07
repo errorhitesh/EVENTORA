@@ -56,7 +56,9 @@ const App = {
     this.initBackToTop();
     this.initHeroCountdown();
     this.initHostModal();
-    this.initInstantGatePass();
+    if (typeof InstantGatePassManager !== 'undefined') {
+      InstantGatePassManager.init();
+    }
     this.initNewsletterForm();
     this.initSmoothScroll();
   },
@@ -248,260 +250,374 @@ const App = {
   },
 
   /**
-   * Functional Instant QR Gate Entry Pass Modal
+   * Functional Instant QR Gate Entry Pass Controller
    */
   initInstantGatePass() {
-    const triggerBtn = document.getElementById('instantGatePassTrigger');
-    const modal = document.getElementById('instantGateModal');
-    const modalBody = document.getElementById('gateModalBody');
-    const closeBtn = document.querySelector('.gate-modal-close');
+    if (typeof InstantGatePassManager !== 'undefined') {
+      InstantGatePassManager.init();
+    }
+  }
+};
 
-    if (!triggerBtn || !modal || !modalBody) return;
+/**
+ * ============================================================
+ * INSTANT QR GATE ENTRY PASS MANAGER
+ * ============================================================
+ * High-performance, floating turnstile access controller with
+ * real-time QR generation, Web Audio API scanner feedback,
+ * and seamless booking integration.
+ */
+const InstantGatePassManager = {
+  modal: null,
+  modalBody: null,
+  floatingDock: null,
 
-    // Helper: Turnstile Scanner Beep Sound using Web Audio API
-    const playTurnstileBeep = () => {
-      try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-        const ctx = new AudioCtx();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
+  init() {
+    this.ensureModalInDOM();
+    this.ensureFloatingDockInDOM();
+    this.bindTriggers();
+  },
 
-        const now = ctx.currentTime;
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, now);
-        osc.frequency.setValueAtTime(1174.66, now + 0.08);
-
-        gain.gain.setValueAtTime(0.15, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-
-        osc.start(now);
-        osc.stop(now + 0.3);
-      } catch (err) {
-        // Silently catch audio policy restrictions
-      }
-    };
-
-    const renderGatePass = () => {
-      // 1. Fetch user data and registrations
-      const allRegistrations = (typeof StorageService !== 'undefined') ? StorageService.getRegistrations() : [];
-      const currentUser = (typeof AuthModal !== 'undefined') ? AuthModal.getCurrentUser() : null;
-
-      let activeRecord = null;
-
-      if (currentUser && currentUser.email) {
-        activeRecord = allRegistrations.find(r => r.email && r.email.toLowerCase() === currentUser.email.toLowerCase());
-      }
-      if (!activeRecord && allRegistrations.length > 0) {
-        activeRecord = allRegistrations[0];
-      }
-
-      const isRealPass = !!activeRecord;
-      const eventTitle = isRealPass ? activeRecord.eventTitle : 'Global AI & Web3 Innovators Summit 2026';
-      const attendeeName = isRealPass ? activeRecord.fullName : (currentUser ? currentUser.name : 'Guest Attendee');
-      const attendeeEmail = isRealPass ? activeRecord.email : (currentUser ? currentUser.email : 'guest.pass@eventora.io');
-      const passId = isRealPass ? activeRecord.registrationId : 'EVT-PASS-2026-X94B';
-      const dateStr = isRealPass ? activeRecord.displayDate : 'Nov 20 - 21, 2026 (09:00 AM)';
-      const venueStr = isRealPass ? activeRecord.eventVenue : 'BIEC, Bengaluru (Hall 3)';
-      const gateNo = 'Gate 04 – North Turnstile';
-
-      modalBody.innerHTML = `
-        <div class="ticket-pass-wrapper" style="margin-top: 0; box-shadow: none;">
-          <div class="ticket-pass-header" style="padding: 1rem 1.25rem;">
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
-              <span class="gate-pass-badge ${isRealPass ? 'verified' : 'demo'}">
-                <i class="fa-solid ${isRealPass ? 'fa-circle-check' : 'fa-flask'}"></i>
-                ${isRealPass ? 'Verified Ticket' : 'Instant Demo Pass'}
-              </span>
-            </div>
-            <div class="ticket-id-pill" style="font-size: 0.75rem;">${passId}</div>
-          </div>
-
-          <div class="ticket-pass-body" style="padding: 1.25rem;">
-            <h3 class="ticket-event-name" style="font-size: 1.15rem; margin-bottom: 1rem;">
-              ${eventTitle}
-            </h3>
-
-            <div class="ticket-details-grid" style="gap: 0.85rem; margin-bottom: 1rem;">
-              <div class="ticket-detail-cell">
-                <span class="ticket-detail-label">Designated Turnstile</span>
-                <span class="ticket-detail-val" style="color: var(--primary);">${gateNo}</span>
-              </div>
-              <div class="ticket-detail-cell">
-                <span class="ticket-detail-label">Attendee</span>
-                <span class="ticket-detail-val">${attendeeName}</span>
-              </div>
-              <div class="ticket-detail-cell">
-                <span class="ticket-detail-label">Event Date &amp; Time</span>
-                <span class="ticket-detail-val" style="font-size: 0.85rem;">${dateStr}</span>
-              </div>
-              <div class="ticket-detail-cell">
-                <span class="ticket-detail-label">Venue Location</span>
-                <span class="ticket-detail-val" style="font-size: 0.85rem;">${venueStr}</span>
-              </div>
-            </div>
-
-            <div class="gate-qr-stage">
-              <div class="gate-qr-box">
-                <div class="gate-laser-line"></div>
-                <!-- High-res Mock Gate QR SVG -->
-                <svg width="130" height="130" viewBox="0 0 100 100" style="display: block;">
-                  <rect width="100" height="100" fill="#FFFFFF" />
-                  <!-- Corner Markers -->
-                  <path d="M6,6 h26 v26 h-26 z M10,10 v18 h18 v-18 z M14,14 h10 v10 h-10 z" fill="#09090B" />
-                  <path d="M68,6 h26 v26 h-26 z M72,10 v18 h18 v-18 z M76,14 h10 v10 h-10 z" fill="#09090B" />
-                  <path d="M6,68 h26 v26 h-26 z M10,72 v18 h18 v-18 z M14,76 h10 v10 h-10 z" fill="#09090B" />
-                  <!-- Claude Code Centerpiece Orange Marker -->
-                  <circle cx="50" cy="50" r="10" fill="#F97316" />
-                  <circle cx="50" cy="50" r="5" fill="#FFFFFF" />
-                  <!-- Data Matrix Dots -->
-                  <rect x="40" y="10" width="8" height="8" fill="#09090B" />
-                  <rect x="52" y="10" width="8" height="8" fill="#09090B" />
-                  <rect x="40" y="24" width="6" height="6" fill="#09090B" />
-                  <rect x="10" y="40" width="8" height="8" fill="#09090B" />
-                  <rect x="24" y="40" width="8" height="8" fill="#09090B" />
-                  <rect x="10" y="52" width="6" height="6" fill="#09090B" />
-                  <rect x="40" y="70" width="8" height="8" fill="#09090B" />
-                  <rect x="54" y="70" width="8" height="18" fill="#09090B" />
-                  <rect x="70" y="40" width="8" height="14" fill="#09090B" />
-                  <rect x="82" y="40" width="10" height="8" fill="#09090B" />
-                  <rect x="70" y="60" width="12" height="6" fill="#09090B" />
-                  <rect x="70" y="74" width="8" height="16" fill="#09090B" />
-                  <rect x="84" y="74" width="8" height="8" fill="#09090B" />
+  ensureModalInDOM() {
+    let modal = document.getElementById('instantGateModal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.className = 'modal-overlay';
+      modal.id = 'instantGateModal';
+      modal.setAttribute('role', 'dialog');
+      modal.setAttribute('aria-modal', 'true');
+      modal.setAttribute('aria-labelledby', 'gateModalTitle');
+      modal.innerHTML = `
+        <div class="modal-box modal-box-wide" style="max-width: 580px;">
+          <div class="modal-header">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <div class="brand-icon" style="width: 2.25rem; height: 2.25rem; font-size: 1rem;" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM14 14h2v2h-2zM18 14h3v3h-3zM14 18h3v3h-3zM18 18h3v3h-3z"/>
+                  <rect x="5" y="5" width="2" height="2" fill="#FFFFFF"/>
+                  <rect x="17" y="5" width="2" height="2" fill="#FFFFFF"/>
+                  <rect x="5" y="17" width="2" height="2" fill="#FFFFFF"/>
                 </svg>
               </div>
-
-              <div style="margin-top: 0.75rem; text-align: center;">
-                <div style="font-family: var(--font-pixel-sm); font-size: 0.72rem; letter-spacing: 0.04em; color: var(--text-muted); text-transform: uppercase;">
-                  Turnstile ID: ${passId}
-                </div>
-                <div class="ticket-barcode-lines" style="height: 20px; font-size: 0.9rem; letter-spacing: 3px; margin-top: 0.25rem;">
-                  ||||| | |||| ||| |||| |
+              <div>
+                <h3 class="modal-title" id="gateModalTitle" style="font-size: 1.15rem; margin-bottom: 0.15rem;">
+                  Instant QR Gate Entry Pass
+                </h3>
+                <div style="font-size: 0.72rem; color: #10B981; font-weight: 700; display: flex; align-items: center; gap: 0.35rem;">
+                  <span class="pulse-dot" style="width: 6px; height: 6px;"></span>
+                  <span style="font-family: var(--font-pixel-sm); letter-spacing: 0.04em;">LIVE SYSTEM // TURNSTILE GATE READY</span>
                 </div>
               </div>
+            </div>
+            <button class="modal-close-btn gate-modal-close" aria-label="Close gate pass modal">
+              <svg class="pixel-close-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          <div class="modal-body" id="gateModalBody"></div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
 
-              <!-- Live Turnstile Scan Feedback Placeholder -->
-              <div id="gateTurnstileResult" style="width: 100%;"></div>
+    this.modal = modal;
+    this.modalBody = modal.querySelector('#gateModalBody');
+
+    const closeBtn = modal.querySelector('.gate-modal-close');
+    if (closeBtn) {
+      closeBtn.onclick = (e) => {
+        e.preventDefault();
+        this.closeModal();
+      };
+    }
+
+    modal.onclick = (e) => {
+      if (e.target === modal) this.closeModal();
+    };
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.modal && this.modal.classList.contains('active')) {
+        this.closeModal();
+      }
+    });
+  },
+
+  ensureFloatingDockInDOM() {
+    let dock = document.getElementById('floatingGateTrigger');
+    if (!dock) {
+      dock = document.createElement('button');
+      dock.id = 'floatingGateTrigger';
+      dock.className = 'floating-gate-pass-dock';
+      dock.setAttribute('type', 'button');
+      dock.setAttribute('aria-label', 'Open Instant QR Gate Entry Pass');
+      dock.innerHTML = `
+        <div class="floating-gate-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+            <path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM14 14h2v2h-2zM18 14h3v3h-3zM14 18h3v3h-3zM18 18h3v3h-3z"/>
+            <rect x="5" y="5" width="2" height="2" fill="currentColor"/>
+            <rect x="17" y="5" width="2" height="2" fill="currentColor"/>
+            <rect x="5" y="17" width="2" height="2" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="floating-gate-label">
+          <span class="floating-gate-tag"><span class="pulse-dot"></span> TURNSTILE GATE</span>
+          <span class="floating-gate-title">Instant Gate Pass</span>
+        </div>
+      `;
+      document.body.appendChild(dock);
+    }
+
+    this.floatingDock = dock;
+    dock.onclick = (e) => {
+      e.preventDefault();
+      this.openModal();
+    };
+  },
+
+  bindTriggers() {
+    const triggers = document.querySelectorAll('#instantGatePassTrigger, .instant-gate-trigger, .floating-mini-widget');
+    triggers.forEach(el => {
+      el.removeEventListener('click', this.handleTriggerClick);
+      el.addEventListener('click', this.handleTriggerClick.bind(this));
+    });
+  },
+
+  handleTriggerClick(e) {
+    e.preventDefault();
+    this.openModal();
+  },
+
+  playTurnstileBeep() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      const now = ctx.currentTime;
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, now);
+      osc.frequency.setValueAtTime(1174.66, now + 0.08);
+
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.3);
+    } catch (err) {
+      // Audio autoplay policy fallback
+    }
+  },
+
+  renderGatePass(customPass) {
+    if (!this.modalBody) this.ensureModalInDOM();
+    if (!this.modalBody) return;
+
+    // Fetch user data and registrations
+    const allRegistrations = (typeof StorageService !== 'undefined') ? StorageService.getRegistrations() : [];
+    const currentUser = (typeof AuthModal !== 'undefined') ? AuthModal.getCurrentUser() : null;
+
+    let activeRecord = customPass || null;
+
+    if (!activeRecord && currentUser && currentUser.email) {
+      activeRecord = allRegistrations.find(r => r.email && r.email.toLowerCase() === currentUser.email.toLowerCase());
+    }
+    if (!activeRecord && allRegistrations.length > 0) {
+      activeRecord = allRegistrations[allRegistrations.length - 1];
+    }
+
+    const isRealPass = !!activeRecord;
+    const eventTitle = isRealPass ? activeRecord.eventTitle : 'Global AI & Web3 Innovators Summit 2026';
+    const attendeeName = isRealPass ? activeRecord.fullName : (currentUser ? currentUser.name : 'Guest Attendee');
+    const attendeeEmail = isRealPass ? activeRecord.email : (currentUser ? currentUser.email : 'guest.pass@eventora.io');
+    const passId = isRealPass ? activeRecord.registrationId : 'EVT-PASS-2026-X94B';
+    const dateStr = isRealPass ? activeRecord.displayDate : 'Nov 20 - 21, 2026 (09:00 AM)';
+    const venueStr = isRealPass ? activeRecord.eventVenue : 'BIEC, Bengaluru (Hall 3)';
+    const gateNo = 'Gate 04 – North Turnstile';
+
+    this.modalBody.innerHTML = `
+      <div class="ticket-pass-wrapper" style="margin-top: 0; box-shadow: none;">
+        <div class="ticket-pass-header" style="padding: 1rem 1.25rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span class="gate-pass-badge ${isRealPass ? 'verified' : 'demo'}">
+              <i class="fa-solid ${isRealPass ? 'fa-circle-check' : 'fa-flask'}"></i>
+              ${isRealPass ? 'Verified Ticket' : 'Instant Demo Pass'}
+            </span>
+          </div>
+          <div class="ticket-id-pill" style="font-size: 0.75rem;">${passId}</div>
+        </div>
+
+        <div class="ticket-pass-body" style="padding: 1.25rem;">
+          <h3 class="ticket-event-name" style="font-size: 1.15rem; margin-bottom: 1rem;">
+            ${eventTitle}
+          </h3>
+
+          <div class="ticket-details-grid" style="gap: 0.85rem; margin-bottom: 1rem;">
+            <div class="ticket-detail-cell">
+              <span class="ticket-detail-label">Designated Turnstile</span>
+              <span class="ticket-detail-val" style="color: var(--primary);">${gateNo}</span>
+            </div>
+            <div class="ticket-detail-cell">
+              <span class="ticket-detail-label">Attendee</span>
+              <span class="ticket-detail-val">${attendeeName}</span>
+            </div>
+            <div class="ticket-detail-cell">
+              <span class="ticket-detail-label">Event Date &amp; Time</span>
+              <span class="ticket-detail-val" style="font-size: 0.85rem;">${dateStr}</span>
+            </div>
+            <div class="ticket-detail-cell">
+              <span class="ticket-detail-label">Venue Location</span>
+              <span class="ticket-detail-val" style="font-size: 0.85rem;">${venueStr}</span>
+            </div>
+          </div>
+
+          <div class="gate-qr-stage">
+            <div class="gate-qr-box">
+              <div class="gate-laser-line"></div>
+              <!-- High-res Mock Gate QR SVG -->
+              <svg width="130" height="130" viewBox="0 0 100 100" style="display: block;">
+                <rect width="100" height="100" fill="#FFFFFF" />
+                <!-- Corner Markers -->
+                <path d="M6,6 h26 v26 h-26 z M10,10 v18 h18 v-18 z M14,14 h10 v10 h-10 z" fill="#09090B" />
+                <path d="M68,6 h26 v26 h-26 z M72,10 v18 h18 v-18 z M76,14 h10 v10 h-10 z" fill="#09090B" />
+                <path d="M6,68 h26 v26 h-26 z M10,72 v18 h18 v-18 z M14,76 h10 v10 h-10 z" fill="#09090B" />
+                <!-- Claude Code Centerpiece Orange Marker -->
+                <circle cx="50" cy="50" r="10" fill="#F97316" />
+                <circle cx="50" cy="50" r="5" fill="#FFFFFF" />
+                <!-- Data Matrix Dots -->
+                <rect x="40" y="10" width="8" height="8" fill="#09090B" />
+                <rect x="52" y="10" width="8" height="8" fill="#09090B" />
+                <rect x="40" y="24" width="6" height="6" fill="#09090B" />
+                <rect x="10" y="40" width="8" height="8" fill="#09090B" />
+                <rect x="24" y="40" width="8" height="8" fill="#09090B" />
+                <rect x="10" y="52" width="6" height="6" fill="#09090B" />
+                <rect x="40" y="70" width="8" height="8" fill="#09090B" />
+                <rect x="54" y="70" width="8" height="18" fill="#09090B" />
+                <rect x="70" y="40" width="8" height="14" fill="#09090B" />
+                <rect x="82" y="40" width="10" height="8" fill="#09090B" />
+                <rect x="70" y="60" width="12" height="6" fill="#09090B" />
+                <rect x="70" y="74" width="8" height="16" fill="#09090B" />
+                <rect x="84" y="74" width="8" height="8" fill="#09090B" />
+              </svg>
             </div>
 
-            <!-- Action Buttons -->
-            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-              <button class="btn btn-primary btn-block" id="simulateGateScanBtn">
-                <i class="fa-solid fa-barcode"></i> Simulate Turnstile Scanner Check-In
-              </button>
-
-              <div style="display: flex; gap: 0.75rem;">
-                ${isRealPass ? `
-                  <a href="registrations.html" class="btn btn-secondary btn-block" style="text-align: center;">
-                    <i class="fa-solid fa-list-check"></i> My Registrations
-                  </a>
-                ` : `
-                  <button class="btn btn-secondary btn-block" id="gateRegisterNowBtn">
-                    <i class="fa-solid fa-ticket"></i> Book Confirmed Ticket
-                  </button>
-                `}
-                <button class="btn btn-secondary btn-block" id="gatePrintPassBtn">
-                  <i class="fa-solid fa-print"></i> Print Pass
-                </button>
+            <div style="margin-top: 0.75rem; text-align: center;">
+              <div style="font-family: var(--font-pixel-sm); font-size: 0.72rem; letter-spacing: 0.04em; color: var(--text-muted); text-transform: uppercase;">
+                Turnstile ID: ${passId}
               </div>
+              <div class="ticket-barcode-lines" style="height: 20px; font-size: 0.9rem; letter-spacing: 3px; margin-top: 0.25rem;">
+                ||||| | |||| ||| |||| |
+              </div>
+            </div>
+
+            <!-- Live Turnstile Scan Feedback Placeholder -->
+            <div id="gateTurnstileResult" style="width: 100%;"></div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <button class="btn btn-primary btn-block" id="simulateGateScanBtn">
+              <i class="fa-solid fa-barcode"></i> Simulate Turnstile Scanner Check-In
+            </button>
+
+            <div style="display: flex; gap: 0.75rem;">
+              ${isRealPass ? `
+                <a href="registrations.html" class="btn btn-secondary btn-block" style="text-align: center;">
+                  <i class="fa-solid fa-list-check"></i> My Registrations
+                </a>
+              ` : `
+                <button class="btn btn-secondary btn-block" id="gateRegisterNowBtn">
+                  <i class="fa-solid fa-ticket"></i> Book Confirmed Ticket
+                </button>
+              `}
+              <button class="btn btn-secondary btn-block" id="gatePrintPassBtn">
+                <i class="fa-solid fa-print"></i> Print Pass
+              </button>
             </div>
           </div>
         </div>
-      `;
+      </div>
+    `;
 
-      // Wire simulator button
-      const simBtn = document.getElementById('simulateGateScanBtn');
-      const resultArea = document.getElementById('gateTurnstileResult');
-      if (simBtn && resultArea) {
-        simBtn.addEventListener('click', () => {
-          simBtn.disabled = true;
-          simBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Reading Turnstile Sensor...';
+    // Wire simulation button
+    const simBtn = document.getElementById('simulateGateScanBtn');
+    const resultArea = document.getElementById('gateTurnstileResult');
+    if (simBtn && resultArea) {
+      simBtn.addEventListener('click', () => {
+        simBtn.disabled = true;
+        simBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Reading Turnstile Sensor...';
 
-          setTimeout(() => {
-            playTurnstileBeep();
-            simBtn.disabled = false;
-            simBtn.innerHTML = '<i class="fa-solid fa-barcode"></i> Scan Again';
+        setTimeout(() => {
+          this.playTurnstileBeep();
+          simBtn.disabled = false;
+          simBtn.innerHTML = '<i class="fa-solid fa-barcode"></i> Scan Again';
 
-            resultArea.innerHTML = `
-              <div class="gate-turnstile-alert success">
-                <i class="fa-solid fa-circle-check" style="font-size: 1.25rem; flex-shrink: 0;"></i>
-                <div>
-                  <div style="font-weight: 800; font-family: var(--font-pixel-sm); letter-spacing: 0.03em;">
-                    GATE 04 TURNSTILE UNLOCKED
-                  </div>
-                  <div style="font-size: 0.78rem; opacity: 0.9; margin-top: 0.15rem;">
-                    Pass <strong>${passId}</strong> accepted at ${new Date().toLocaleTimeString('en-US')}. Welcome, ${attendeeName}!
-                  </div>
+          resultArea.innerHTML = `
+            <div class="gate-turnstile-alert success">
+              <i class="fa-solid fa-circle-check" style="font-size: 1.25rem; flex-shrink: 0;"></i>
+              <div>
+                <div style="font-weight: 800; font-family: var(--font-pixel-sm); letter-spacing: 0.03em;">
+                  GATE 04 TURNSTILE UNLOCKED
+                </div>
+                <div style="font-size: 0.78rem; opacity: 0.9; margin-top: 0.15rem;">
+                  Pass <strong>${passId}</strong> accepted at ${new Date().toLocaleTimeString('en-US')}. Welcome, ${attendeeName}!
                 </div>
               </div>
-            `;
+            </div>
+          `;
 
-            if (typeof showToast === 'function') {
-              showToast('Turnstile gate unlocked! Pass verified successfully.', 'success', 4000);
-            }
-          }, 600);
-        });
-      }
-
-      // Wire "Book Confirmed Ticket" button if demo
-      const regBtn = document.getElementById('gateRegisterNowBtn');
-      if (regBtn) {
-        regBtn.addEventListener('click', () => {
-          closeGateModal();
-          if (typeof RegistrationManager !== 'undefined' && RegistrationManager.openModal) {
-            RegistrationManager.openModal('evt-101');
+          if (typeof showToast === 'function') {
+            showToast('Turnstile gate unlocked! Pass verified successfully.', 'success', 4000);
           }
-        });
-      }
+        }, 600);
+      });
+    }
 
-      // Wire "Print Pass" button
-      const printBtn = document.getElementById('gatePrintPassBtn');
-      if (printBtn) {
-        printBtn.addEventListener('click', () => {
-          window.print();
-        });
-      }
-    };
+    // Wire "Book Confirmed Ticket" button if demo
+    const regBtn = document.getElementById('gateRegisterNowBtn');
+    if (regBtn) {
+      regBtn.addEventListener('click', () => {
+        this.closeModal();
+        if (typeof RegistrationManager !== 'undefined' && RegistrationManager.openModal) {
+          RegistrationManager.openModal('evt-101');
+        }
+      });
+    }
 
-    const openGateModal = () => {
-      renderGatePass();
-      modal.classList.add('active');
+    // Wire "Print Pass" button
+    const printBtn = document.getElementById('gatePrintPassBtn');
+    if (printBtn) {
+      printBtn.addEventListener('click', () => {
+        window.print();
+      });
+    }
+  },
+
+  openModal(customPass) {
+    this.ensureModalInDOM();
+    this.renderGatePass(customPass);
+    if (this.modal) {
+      this.modal.classList.add('active');
       document.body.style.overflow = 'hidden';
-    };
+    }
+  },
 
-    const closeGateModal = () => {
-      modal.classList.remove('active');
+  closeModal() {
+    if (this.modal) {
+      this.modal.classList.remove('active');
       document.body.style.overflow = '';
-    };
-
-    triggerBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      openGateModal();
-    });
-
-    triggerBtn.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openGateModal();
-      }
-    });
-
-    if (closeBtn) closeBtn.addEventListener('click', closeGateModal);
-
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeGateModal();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('active')) {
-        closeGateModal();
-      }
-    });
+    }
   }
 };
+
+// Expose globally
+window.InstantGatePassManager = InstantGatePassManager;
 
 document.addEventListener('DOMContentLoaded', () => {
   App.init();

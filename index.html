@@ -240,16 +240,24 @@
               </div>
             </article>
 
-            <!-- Floating Micro Interaction Badge -->
-            <div class="floating-mini-widget">
+            <!-- Floating Micro Interaction Badge (Functional Instant QR Gate Pass Button) -->
+            <button class="floating-mini-widget instant-gate-trigger" id="instantGatePassTrigger" type="button" aria-haspopup="dialog" aria-label="Open Instant QR Gate Entry Pass">
               <div class="floating-icon-box">
-                <i class="fa-solid fa-qrcode"></i>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+                  <path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM14 14h2v2h-2zM18 14h3v3h-3zM14 18h3v3h-3zM18 18h3v3h-3z"/>
+                  <rect x="5" y="5" width="2" height="2" fill="currentColor"/>
+                  <rect x="17" y="5" width="2" height="2" fill="currentColor"/>
+                  <rect x="5" y="17" width="2" height="2" fill="currentColor"/>
+                </svg>
               </div>
-              <div>
+              <div style="flex-grow: 1; text-align: left;">
                 <div class="floating-text-sub">Instant Digital Pass</div>
                 <div class="floating-text-main">Instant QR Gate Entry</div>
               </div>
-            </div>
+              <div class="floating-arrow-icon" aria-hidden="true">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </div>
+            </button>
           </div>
         </div>
       </div>
@@ -861,6 +869,40 @@
           </button>
         </form>
       </div>
+    </div>
+  </div>
+
+  <!-- INSTANT QR GATE ENTRY PASS MODAL -->
+  <div class="modal-overlay" id="instantGateModal" role="dialog" aria-modal="true" aria-labelledby="gateModalTitle">
+    <div class="modal-box modal-box-wide" style="max-width: 580px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div class="brand-icon" style="width: 2.25rem; height: 2.25rem; font-size: 1rem;" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM14 14h2v2h-2zM18 14h3v3h-3zM14 18h3v3h-3zM18 18h3v3h-3z"/>
+              <rect x="5" y="5" width="2" height="2" fill="#FFFFFF"/>
+              <rect x="17" y="5" width="2" height="2" fill="#FFFFFF"/>
+              <rect x="5" y="17" width="2" height="2" fill="#FFFFFF"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="modal-title" id="gateModalTitle" style="font-size: 1.15rem; margin-bottom: 0.15rem;">
+              Instant QR Gate Entry Pass
+            </h3>
+            <div style="font-size: 0.72rem; color: #10B981; font-weight: 700; display: flex; align-items: center; gap: 0.35rem;">
+              <span class="pulse-dot" style="width: 6px; height: 6px;"></span>
+              <span style="font-family: var(--font-pixel-sm); letter-spacing: 0.04em;">LIVE SYSTEM // TURNSTILE GATE READY</span>
+            </div>
+          </div>
+        </div>
+        <button class="modal-close-btn gate-modal-close" aria-label="Close gate pass modal">
+          <svg class="pixel-close-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" id="gateModalBody"></div>
     </div>
   </div>
 

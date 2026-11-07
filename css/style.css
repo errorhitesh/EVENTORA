@@ -735,6 +735,103 @@ ol {
   color: var(--text-main);
 }
 
+/* ============================================================
+   FLOATING INSTANT QR GATE ENTRY PASS DOCK (ALL PAGES)
+   ============================================================ */
+.floating-gate-pass-dock {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 998;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-surface-elevated);
+  border: 2px solid var(--border-strong);
+  box-shadow: 4px 4px 0px #000000;
+  padding: 0.6rem 1.15rem 0.6rem 0.85rem;
+  border-radius: 0px !important;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  font-family: var(--font-pixel), monospace;
+  animation: floatDockPulse 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes floatDockPulse {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+.floating-gate-pass-dock:hover {
+  background: var(--primary);
+  color: #000000;
+  border-color: #000000;
+  box-shadow: 5px 5px 0px #000000;
+  transform: translate(-2px, -4px);
+  animation-play-state: paused;
+}
+
+.floating-gate-pass-dock:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.floating-gate-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: #000000;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--primary);
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.floating-gate-pass-dock:hover .floating-gate-icon {
+  background: #000000;
+  color: #FFFFFF;
+  border-color: #000000;
+}
+
+.floating-gate-label {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.floating-gate-tag {
+  font-family: var(--font-pixel-sm);
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  color: #10B981;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  line-height: 1.2;
+}
+
+.floating-gate-pass-dock:hover .floating-gate-tag {
+  color: #000000;
+}
+
+.floating-gate-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: inherit;
+  line-height: 1.25;
+}
+
 /* Gate Pass Modal Components */
 .gate-qr-stage {
   display: flex;
