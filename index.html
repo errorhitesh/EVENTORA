@@ -1,36 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
-
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>EVENTORA – Discover Experiences. Create Memories.</title>
-  <meta name="description"
-    content="EVENTORA is a modern, premium event discovery and registration platform. Find technology conferences, live music concerts, startup pitch summits, workshops, and sports championships.">
-  <meta name="theme-color" content="#F97316">
+  <meta name="description" content="EVENTORA is a modern, premium event discovery and registration platform. Find technology conferences, live music concerts, startup pitch summits, workshops, and sports championships.">
+  <meta name="theme-color" content="#5B4BDB">
 
-  <!-- Google Fonts: Authentic 8-Bit Pixel Fonts (Pixelify Sans, Silkscreen, VT323) -->
+  <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=VT323&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
 
   <!-- Font Awesome 6.5.1 CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <!-- Google Identity Services (Google Auth API) -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/themes.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
-
 <body>
 
   <!-- ============================================================
@@ -39,8 +29,10 @@
   <header class="site-header" role="banner">
     <div class="container nav-container">
       <a href="index.html" class="brand-logo" aria-label="Eventora Home">
-        <div class="brand-icon">
-          <i class="fa-solid fa-bolt-lightning"></i>
+        <div class="brand-icon" aria-hidden="true">
+          <svg class="brand-bolt-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.5" stroke-linejoin="miter"/>
+          </svg>
         </div>
         <span>EVENTORA</span>
       </a>
@@ -48,23 +40,24 @@
       <nav class="nav-menu" role="navigation" aria-label="Main Navigation">
         <a href="index.html" class="nav-link active">Home</a>
         <a href="events.html" class="nav-link">Explore Events</a>
-        <a href="#categoriesSection" class="nav-link">Categories</a>
+        <a href="categories.html" class="nav-link">Categories</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="host.html" class="nav-link">Host Event</a>
         <a href="registrations.html" class="nav-link">
-          My Registrations
+          My Tickets
           <span class="nav-badge-pill reg-count-badge" style="display: none;">0</span>
         </a>
-        <a href="#whyChooseUs" class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
       </nav>
 
       <div class="nav-actions">
         <!-- Theme Toggle -->
-        <button class="theme-toggle-btn" aria-label="Dark Mode active. Click to switch to Light Mode."
-          title="Dark Mode (Click to switch to Light Mode)">
-          <i class="fa-solid fa-moon" style="color: var(--primary);"></i>
+        <button class="theme-toggle-btn" aria-label="Switch to Light Mode" title="Switch to Light Mode">
+          <svg class="theme-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.5" fill="#F97316" stroke="#000000" stroke-width="1.2"/>
+            <path d="M12 2V5M12 19V22M2 12H5M19 12H22M4.93 4.93L7.05 7.05M16.95 16.95L19.07 19.07M4.93 19.07L7.05 16.95M16.95 7.05L19.07 4.93" stroke="#F97316" stroke-width="2.5" stroke-linecap="square"/>
+          </svg>
         </button>
-
-        <!-- Auth Slot (Login/Register or User Profile) -->
-        <div class="nav-auth-slot"></div>
 
         <!-- CTA Button -->
         <a href="events.html" class="btn btn-primary btn-explore-nav">
@@ -72,8 +65,12 @@
         </a>
 
         <!-- Mobile Menu Hamburger -->
-        <button class="mobile-menu-btn" aria-label="Open mobile navigation menu">
-          <i class="fa-solid fa-bars"></i>
+        <button class="mobile-menu-btn" aria-label="Open mobile navigation menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+          <svg class="pixel-menu-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
         </button>
       </div>
     </div>
@@ -83,14 +80,19 @@
   <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
   <aside class="mobile-nav-drawer" id="mobileNavDrawer" aria-label="Mobile Navigation Menu">
     <div class="mobile-drawer-header">
-      <a href="index.html" class="brand-logo">
-        <div class="brand-icon">
-          <i class="fa-solid fa-bolt-lightning"></i>
+      <a href="index.html" class="brand-logo" aria-label="Eventora Home">
+        <div class="brand-icon" aria-hidden="true">
+          <svg class="brand-bolt-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.5" stroke-linejoin="miter"/>
+          </svg>
         </div>
         <span>EVENTORA</span>
       </a>
       <button class="mobile-drawer-close" aria-label="Close menu">
-        <i class="fa-solid fa-xmark"></i>
+        <svg class="pixel-close-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
       </button>
     </div>
 
@@ -101,28 +103,31 @@
       <a href="events.html" class="mobile-drawer-link">
         <i class="fa-solid fa-compass"></i> Explore Events
       </a>
-      <a href="#categoriesSection" class="mobile-drawer-link">
+      <a href="categories.html" class="mobile-drawer-link">
         <i class="fa-solid fa-shapes"></i> Categories
+      </a>
+      <a href="about.html" class="mobile-drawer-link">
+        <i class="fa-solid fa-circle-info"></i> About Us
+      </a>
+      <a href="host.html" class="mobile-drawer-link">
+        <i class="fa-solid fa-calendar-plus"></i> Host an Event
       </a>
       <a href="registrations.html" class="mobile-drawer-link">
         <i class="fa-solid fa-ticket"></i> My Registrations
         <span class="nav-badge-pill reg-count-badge" style="display: none;">0</span>
       </a>
-      <a href="#whyChooseUs" class="mobile-drawer-link">
-        <i class="fa-solid fa-circle-info"></i> About Eventora
-      </a>
-      <a href="#" class="mobile-drawer-link host-event-trigger">
-        <i class="fa-solid fa-calendar-plus"></i> Host an Event
+      <a href="contact.html" class="mobile-drawer-link">
+        <i class="fa-solid fa-envelope"></i> Contact Support
       </a>
     </div>
 
     <div class="mobile-drawer-actions">
-      <!-- Mobile Auth Slot -->
-      <div class="mobile-auth-slot"></div>
-
-      <button class="btn btn-secondary btn-block theme-toggle-btn">
-        <i class="fa-solid fa-moon" style="color: var(--primary);"></i>
-        <span class="theme-text">Dark Mode</span>
+      <button class="btn btn-secondary btn-block theme-toggle-btn" aria-label="Switch to Light Mode">
+        <svg class="theme-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5" fill="#F97316" stroke="#000000" stroke-width="1.2"/>
+          <path d="M12 2V5M12 19V22M2 12H5M19 12H22M4.93 4.93L7.05 7.05M16.95 16.95L19.07 19.07M4.93 19.07L7.05 16.95M16.95 7.05L19.07 4.93" stroke="#F97316" stroke-width="2.5" stroke-linecap="square"/>
+        </svg>
+        <span class="theme-text">Light Mode</span>
       </button>
       <a href="events.html" class="btn btn-primary btn-block">
         <i class="fa-solid fa-ticket"></i> Browse All Events
@@ -142,7 +147,7 @@
       <div class="container hero-grid">
         <div class="hero-content">
           <div class="section-badge">
-            <i class="fa-solid fa-sparkles"></i> The Future of Event Discovery
+            <i class="fa-solid fa-star"></i> The Future of Event Discovery
           </div>
 
           <h1 class="hero-headline">
@@ -151,8 +156,7 @@
           </h1>
 
           <p class="hero-description">
-            Connect with visionary tech conferences, electrifying music festivals, high-impact startup conclaves, and
-            hands-on masterclasses. Instant digital pass booking with zero friction.
+            Connect with visionary tech conferences, electrifying music festivals, high-impact startup conclaves, and hands-on masterclasses. Instant digital pass booking with zero friction.
           </p>
 
           <div class="hero-cta-group">
@@ -190,9 +194,7 @@
           <div class="hero-card-stack">
             <article class="hero-main-card">
               <div class="hero-card-image-box">
-                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80"
-                  alt="Global AI & Web3 Summit 2026" class="hero-card-image"
-                  onerror="this.src='assets/images/tech-fallback.svg'">
+                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80" alt="Global AI & Web3 Summit 2026" class="hero-card-image" onerror="this.src='assets/images/tech-fallback.svg'">
                 <div class="hero-card-live-pill">
                   <span class="pulse-dot"></span> SELLING FAST
                 </div>
@@ -227,31 +229,27 @@
                   </div>
                 </div>
 
-                <div class="hero-card-actions" style="margin-top: 1rem;">
-                  <button class="btn btn-secondary btn-sm quick-view-btn" data-id="evt-101">
+                <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                  <button class="btn btn-secondary btn-sm btn-block quick-view-btn" data-id="evt-101">
                     Preview
                   </button>
-                  <button class="btn btn-primary btn-sm register-card-btn" data-id="evt-101">
+                  <button class="btn btn-primary btn-sm btn-block register-card-btn" data-id="evt-101">
                     <i class="fa-solid fa-ticket"></i> Book Ticket
                   </button>
                 </div>
               </div>
             </article>
 
-            <!-- Floating Micro Interaction Badge (Functional Instant QR Gate Pass Button) -->
-            <button class="floating-mini-widget" id="instantGatePassTrigger" type="button" aria-haspopup="dialog"
-              aria-label="Open Instant QR Gate Entry Pass">
+            <!-- Floating Micro Interaction Badge -->
+            <div class="floating-mini-widget">
               <div class="floating-icon-box">
                 <i class="fa-solid fa-qrcode"></i>
               </div>
-              <div style="flex-grow: 1; text-align: left;">
+              <div>
                 <div class="floating-text-sub">Instant Digital Pass</div>
                 <div class="floating-text-main">Instant QR Gate Entry</div>
               </div>
-              <div class="floating-arrow-icon" aria-hidden="true">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-              </div>
-            </button>
+            </div>
           </div>
         </div>
       </div>
@@ -266,8 +264,7 @@
           <form class="search-form-grid" onsubmit="event.preventDefault();">
             <div class="search-input-wrapper">
               <i class="fa-solid fa-magnifying-glass search-input-icon"></i>
-              <input type="text" class="search-input event-search-input"
-                placeholder="Search by event name, venue, city, or keywords..." aria-label="Search events by keyword">
+              <input type="text" class="search-input event-search-input" placeholder="Search by event name, venue, city, or keywords..." aria-label="Search events by keyword">
               <button type="button" class="search-clear-btn" aria-label="Clear search">
                 <i class="fa-solid fa-xmark"></i>
               </button>
@@ -300,8 +297,7 @@
               </select>
             </div>
 
-            <button type="button" class="btn btn-primary"
-              onclick="document.getElementById('upcomingSection').scrollIntoView({behavior:'smooth'});">
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('upcomingSection').scrollIntoView({behavior:'smooth'});">
               <i class="fa-solid fa-arrow-right"></i> Find Events
             </button>
           </form>
@@ -314,8 +310,7 @@
          ============================================================ -->
     <section class="section" id="categoriesSection" style="padding-top: 1rem; padding-bottom: 2rem;">
       <div class="container">
-        <div
-          style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
           <h2 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main);">
             <i class="fa-solid fa-filter" style="color: var(--primary); margin-right: 0.4rem;"></i> Browse by Category
           </h2>
@@ -334,8 +329,7 @@
     <!-- ============================================================
          5. FEATURED EVENTS SECTION
          ============================================================ -->
-    <section class="section" id="featuredSection" style="background: var(--bg-surface-subtle);"
-      aria-labelledby="featuredHeading">
+    <section class="section" id="featuredSection" style="background: var(--bg-surface-subtle);" aria-labelledby="featuredHeading">
       <div class="container">
         <div class="section-header">
           <div class="section-badge">
@@ -365,10 +359,9 @@
             </div>
             <h2 class="spotlight-title">Global AI & Web3 Innovators Summit 2026</h2>
             <p class="spotlight-description">
-              Join 2,500+ AI researchers, founders, and engineers in Bengaluru. Dive into Autonomous Multi-Agent
-              Workflows, Sovereign LLMs, and high-stakes startup pitch showcases.
+              Join 2,500+ AI researchers, founders, and engineers in Bengaluru. Dive into Autonomous Multi-Agent Workflows, Sovereign LLMs, and high-stakes startup pitch showcases.
             </p>
-            <div class="spotlight-actions" style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
               <button class="btn btn-cta-light btn-lg" onclick="RegistrationManager.openModal('evt-101')">
                 <i class="fa-solid fa-ticket"></i> Claim Early Bird Ticket
               </button>
@@ -421,12 +414,10 @@
         </div>
 
         <!-- Filter Sub-Toolbar -->
-        <div
-          style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; background: var(--bg-surface); padding: 1rem 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; background: var(--bg-surface); padding: 1rem 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
           <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
             <span style="font-size: 0.875rem; font-weight: 700; color: var(--text-main);">Filter Price:</span>
-            <select id="eventPriceFilter" class="form-control no-icon"
-              style="padding: 0.45rem 0.85rem; width: auto; font-size: 0.875rem;">
+            <select id="eventPriceFilter" class="form-control no-icon" style="padding: 0.45rem 0.85rem; width: auto; font-size: 0.875rem;">
               <option value="all">All Prices</option>
               <option value="free">Free Events Only</option>
               <option value="paid">Paid Events Only</option>
@@ -453,11 +444,9 @@
           </div>
           <h3 class="empty-state-title">No Matching Events Found</h3>
           <p class="empty-state-desc">
-            We couldn't find any events matching your selected criteria. Try resetting your search query or picking
-            another category.
+            We couldn't find any events matching your selected criteria. Try resetting your search query or picking another category.
           </p>
-          <button class="btn btn-primary"
-            onclick="EventsController.setCategory('all'); document.querySelector('.event-search-input').value=''; EventsController.searchQuery=''; EventsController.applyFilters();">
+          <button class="btn btn-primary" onclick="EventsController.setCategory('all'); document.querySelector('.event-search-input').value=''; EventsController.searchQuery=''; EventsController.applyFilters();">
             <i class="fa-solid fa-rotate-left"></i> Reset All Filters
           </button>
         </div>
@@ -474,8 +463,7 @@
     <!-- ============================================================
          8. WHY CHOOSE EVENTORA (BENEFITS)
          ============================================================ -->
-    <section class="section" id="whyChooseUs" style="background: var(--bg-surface-subtle);"
-      aria-labelledby="benefitsHeading">
+    <section class="section" id="whyChooseUs" style="background: var(--bg-surface-subtle);" aria-labelledby="benefitsHeading">
       <div class="container">
         <div class="section-header">
           <div class="section-badge">
@@ -494,8 +482,7 @@
             </div>
             <h3 class="benefit-card-title">Instant Digital QR Passes</h3>
             <p class="benefit-card-desc">
-              Your registration immediately generates a digital ticket pass with QR code and verification ID. Download,
-              print, or present directly on your phone.
+              Your registration immediately generates a digital ticket pass with QR code and verification ID. Download, print, or present directly on your phone.
             </p>
           </div>
 
@@ -505,8 +492,7 @@
             </div>
             <h3 class="benefit-card-title">Diverse Curated Categories</h3>
             <p class="benefit-card-desc">
-              From tech hackathons and startup conclaves to classical music concerts, half-marathons, and stand-up
-              comedy nights across major metropolitan cities.
+              From tech hackathons and startup conclaves to classical music concerts, half-marathons, and stand-up comedy nights across major metropolitan cities.
             </p>
           </div>
 
@@ -516,8 +502,7 @@
             </div>
             <h3 class="benefit-card-title">Zero Hidden Surcharges</h3>
             <p class="benefit-card-desc">
-              Transparent, upfront pricing. Free events are completely free with no platform convenience traps or hidden
-              transaction surcharges.
+              Transparent, upfront pricing. Free events are completely free with no platform convenience traps or hidden transaction surcharges.
             </p>
           </div>
 
@@ -527,8 +512,7 @@
             </div>
             <h3 class="benefit-card-title">Self-Service Cancellations</h3>
             <p class="benefit-card-desc">
-              Changed plans? Easily manage or cancel your registrations directly from your "My Registrations" dashboard
-              with instant seat replenishment.
+              Changed plans? Easily manage or cancel your registrations directly from your "My Registrations" dashboard with instant seat replenishment.
             </p>
           </div>
 
@@ -538,8 +522,7 @@
             </div>
             <h3 class="benefit-card-title">Real-Time Live Countdown</h3>
             <p class="benefit-card-desc">
-              Never miss a gate opening. Live countdown timers ensure you stay informed of exactly how many days, hours,
-              and minutes remain until start time.
+              Never miss a gate opening. Live countdown timers ensure you stay informed of exactly how many days, hours, and minutes remain until start time.
             </p>
           </div>
 
@@ -549,8 +532,7 @@
             </div>
             <h3 class="benefit-card-title">Verified Organizers</h3>
             <p class="benefit-card-desc">
-              Every conference, expo, and tournament is vetted for authenticity, venue security, and verified organizer
-              contact credentials.
+              Every conference, expo, and tournament is vetted for authenticity, venue security, and verified organizer contact credentials.
             </p>
           </div>
         </div>
@@ -566,8 +548,7 @@
           <div class="cta-content">
             <h2 class="cta-title">Ready to Experience Something Extraordinary?</h2>
             <p class="cta-subtitle">
-              Join over 50,000 attendees discovering premier tech summits, live concerts, and educational bootcamps
-              every single week.
+              Join over 50,000 attendees discovering premier tech summits, live concerts, and educational bootcamps every single week.
             </p>
             <div class="cta-buttons">
               <a href="events.html" class="btn btn-cta-light btn-lg">
@@ -592,24 +573,21 @@
       <div class="footer-grid">
         <div>
           <a href="index.html" class="brand-logo">
-            <div class="brand-icon">
-              <i class="fa-solid fa-bolt-lightning"></i>
-            </div>
+            <div class="brand-icon" aria-hidden="true">
+          <svg class="brand-bolt-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.5" stroke-linejoin="miter"/>
+          </svg>
+        </div>
             <span>EVENTORA</span>
           </a>
           <p class="footer-brand-desc">
-            EVENTORA is India’s modern platform for discovering, organizing, and attending world-class conferences,
-            concerts, exhibitions, and athletic championships.
+            EVENTORA is India’s modern platform for discovering, organizing, and attending world-class conferences, concerts, exhibitions, and athletic championships.
           </p>
           <div class="footer-social-links">
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-link"
-              aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link"
-              aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link"
-              aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-link"
-              aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
           </div>
         </div>
 
@@ -641,8 +619,7 @@
             Subscribe to our newsletter for exclusive early-bird invitations and weekly event spotlights.
           </p>
           <form class="newsletter-form">
-            <input type="email" class="newsletter-input" placeholder="Enter your email..." required
-              aria-label="Email address for newsletter">
+            <input type="email" class="newsletter-input" placeholder="Enter your email..." required aria-label="Email address for newsletter">
             <button type="submit" class="btn btn-primary btn-sm">
               <i class="fa-solid fa-paper-plane"></i>
             </button>
@@ -657,7 +634,7 @@
         <div>
           &copy; 2026 EVENTORA Inc. All rights reserved. Crafted with precision for the Web Designing Project.
         </div>
-        <div class="footer-legal-links" style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+        <div style="display: flex; gap: 1.5rem;">
           <a href="#mainContent" class="footer-link">Privacy Policy</a>
           <a href="#mainContent" class="footer-link">Terms of Service</a>
           <a href="#mainContent" class="footer-link">Cookie Settings</a>
@@ -694,8 +671,7 @@
             </label>
             <div class="form-control-wrapper">
               <i class="fa-regular fa-user form-control-icon"></i>
-              <input type="text" id="regFullName" class="form-control" placeholder="e.g. Aarav Sharma" required
-                autocomplete="name">
+              <input type="text" id="regFullName" class="form-control" placeholder="e.g. Aarav Sharma" required autocomplete="name">
             </div>
             <div class="form-error-msg" id="regFullNameError"></div>
           </div>
@@ -707,8 +683,7 @@
             </label>
             <div class="form-control-wrapper">
               <i class="fa-regular fa-envelope form-control-icon"></i>
-              <input type="email" id="regEmail" class="form-control" placeholder="e.g. aarav.sharma@example.com"
-                required autocomplete="email">
+              <input type="email" id="regEmail" class="form-control" placeholder="e.g. aarav.sharma@example.com" required autocomplete="email">
             </div>
             <div class="form-help-text">Your digital pass and entry barcode will be registered to this email.</div>
             <div class="form-error-msg" id="regEmailError"></div>
@@ -721,8 +696,7 @@
             </label>
             <div class="form-control-wrapper">
               <i class="fa-solid fa-phone form-control-icon"></i>
-              <input type="tel" id="regPhone" class="form-control" placeholder="e.g. 9876543210 or +91 98765 43210"
-                required autocomplete="tel">
+              <input type="tel" id="regPhone" class="form-control" placeholder="e.g. 9876543210 or +91 98765 43210" required autocomplete="tel">
             </div>
             <div class="form-help-text">Valid 10-digit mobile number for SMS event reminders.</div>
             <div class="form-error-msg" id="regPhoneError"></div>
@@ -758,8 +732,7 @@
             </div>
 
             <div class="form-group">
-              <label for="regOrganization" class="form-label">College / Company <small
-                  style="color: var(--text-muted);">(Optional)</small></label>
+              <label for="regOrganization" class="form-label">College / Company <small style="color: var(--text-muted);">(Optional)</small></label>
               <div class="form-control-wrapper">
                 <i class="fa-regular fa-building form-control-icon"></i>
                 <input type="text" id="regOrganization" class="form-control" placeholder="e.g. IIT Bombay / Tech Corp">
@@ -769,15 +742,12 @@
 
           <!-- Special Requests / Notes -->
           <div class="form-group">
-            <label for="regNotes" class="form-label">Special Requests / Dietary Notes <small
-                style="color: var(--text-muted);">(Optional)</small></label>
-            <textarea id="regNotes" class="form-control no-icon" rows="2"
-              placeholder="e.g. Dietary preferences, wheelchair access, or questions for speakers..."></textarea>
+            <label for="regNotes" class="form-label">Special Requests / Dietary Notes <small style="color: var(--text-muted);">(Optional)</small></label>
+            <textarea id="regNotes" class="form-control no-icon" rows="2" placeholder="e.g. Dietary preferences, wheelchair access, or questions for speakers..."></textarea>
           </div>
 
           <!-- Dynamic Pricing Box -->
-          <div id="regPriceCalculation"
-            style="background: var(--bg-surface-subtle); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); margin-bottom: 1.25rem;">
+          <div id="regPriceCalculation" style="background: var(--bg-surface-subtle); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); margin-bottom: 1.25rem;">
             <!-- Dynamically calculated -->
           </div>
 
@@ -785,8 +755,7 @@
           <div class="form-group" style="margin-bottom: 1.5rem;">
             <label class="form-checkbox-label">
               <input type="checkbox" id="regTermsAgree" class="form-checkbox" required>
-              <span>I agree to the Eventora Attendee Code of Conduct and Cancellation Policy. <span
-                  class="required-star">*</span></span>
+              <span>I agree to the Eventora Attendee Code of Conduct and Cancellation Policy. <span class="required-star">*</span></span>
             </label>
             <div class="form-error-msg" id="regTermsAgreeError"></div>
           </div>
@@ -801,8 +770,7 @@
   </div>
 
   <!-- B. REGISTRATION SUCCESS MODAL (DIGITAL TICKET PASS) -->
-  <div class="modal-overlay" id="registrationSuccessModal" role="dialog" aria-modal="true"
-    aria-labelledby="successModalTitle">
+  <div class="modal-overlay" id="registrationSuccessModal" role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
     <div class="modal-box modal-box-wide">
       <div class="modal-header">
         <h3 class="modal-title" id="successModalTitle" style="color: #10B981;">
@@ -815,15 +783,13 @@
 
       <div class="modal-body">
         <p style="color: var(--text-muted); font-size: 0.9375rem; margin-bottom: 1rem;">
-          Your spot is locked in! A confirmation copy has been saved to your device. Here is your official Eventora
-          Digital Entry Pass.
+          Your spot is locked in! A confirmation copy has been saved to your device. Here is your official Eventora Digital Entry Pass.
         </p>
 
         <!-- Digital Ticket Output Container -->
         <div id="ticketPassContainer"></div>
 
-        <div
-          style="display: flex; gap: 1rem; align-items: center; justify-content: flex-end; flex-wrap: wrap; margin-top: 1.5rem;">
+        <div style="display: flex; gap: 1rem; align-items: center; justify-content: flex-end; flex-wrap: wrap; margin-top: 1.5rem;">
           <button class="btn btn-secondary" id="ticketPrintBtn">
             <i class="fa-solid fa-print"></i> Print / Save Pass
           </button>
@@ -858,8 +824,7 @@
     <div class="modal-box">
       <div class="modal-header">
         <h3 class="modal-title" id="hostModalTitle">
-          <i class="fa-solid fa-bullhorn" style="color: var(--primary); margin-right: 0.4rem;"></i> Host Your Event on
-          Eventora
+          <i class="fa-solid fa-bullhorn" style="color: var(--primary); margin-right: 0.4rem;"></i> Host Your Event on Eventora
         </h3>
         <button class="modal-close-btn host-modal-close" aria-label="Close modal">
           <i class="fa-solid fa-xmark"></i>
@@ -867,8 +832,7 @@
       </div>
       <div class="modal-body">
         <p style="color: var(--text-muted); font-size: 0.9375rem; margin-bottom: 1.5rem;">
-          Tap into a vibrant community of over 50,000 active attendees across India. We provide automated QR ticketing,
-          real-time analytics, and fraud protection.
+          Tap into a vibrant community of over 50,000 active attendees across India. We provide automated QR ticketing, real-time analytics, and fraud protection.
         </p>
 
         <form id="hostEventInquiryForm">
@@ -882,8 +846,7 @@
           </div>
           <div class="form-group">
             <label class="form-label">Event Category &amp; Target City</label>
-            <input type="text" class="form-control no-icon" placeholder="e.g. Technology Conference in Bengaluru"
-              required>
+            <input type="text" class="form-control no-icon" placeholder="e.g. Technology Conference in Bengaluru" required>
           </div>
           <div class="form-group">
             <label class="form-label">Expected Attendee Count</label>
@@ -901,37 +864,6 @@
     </div>
   </div>
 
-  <!-- E. INSTANT QR GATE ENTRY PASS MODAL -->
-  <div class="modal-overlay" id="instantGateModal" role="dialog" aria-modal="true" aria-labelledby="gateModalTitle">
-    <div class="modal-box modal-box-wide" style="max-width: 580px;">
-      <div class="modal-header">
-        <div style="display: flex; align-items: center; gap: 0.75rem;">
-          <div class="brand-icon"
-            style="width: 2.25rem; height: 2.25rem; font-size: 1rem; border-radius: var(--radius-xs);">
-            <i class="fa-solid fa-qrcode"></i>
-          </div>
-          <div>
-            <h3 class="modal-title" id="gateModalTitle" style="font-size: 1.15rem; margin-bottom: 0.15rem;">
-              Instant QR Gate Entry Pass
-            </h3>
-            <div
-              style="font-size: 0.72rem; color: #10B981; font-weight: 700; display: flex; align-items: center; gap: 0.35rem;">
-              <span class="pulse-dot" style="width: 6px; height: 6px;"></span>
-              <span style="font-family: var(--font-pixel-sm); letter-spacing: 0.04em;">LIVE SYSTEM // TURNSTILE GATE
-                READY</span>
-            </div>
-          </div>
-        </div>
-        <button class="modal-close-btn gate-modal-close" aria-label="Close gate pass modal">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-      <div class="modal-body" id="gateModalBody">
-        <!-- Injected dynamically by InstantGatePassManager -->
-      </div>
-    </div>
-  </div>
-
   <!-- Back to Top Button -->
   <button class="back-to-top" id="backToTopBtn" aria-label="Back to top">
     <i class="fa-solid fa-arrow-up"></i>
@@ -944,11 +876,8 @@
   <script src="js/data.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/theme.js"></script>
-  <script src="js/auth.js"></script>
   <script src="js/registration.js"></script>
   <script src="js/events.js"></script>
   <script src="js/app.js"></script>
-  <script src="js/cursor-trail.js?v=3"></script>
 </body>
-
 </html>

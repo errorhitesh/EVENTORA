@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>About Us – EVENTORA</title>
+  <meta name="description"
+    content="Learn about EVENTORA: Our mission, core values, instant digital ticketing architecture, and verified organizer standards.">
+  <meta name="theme-color" content="#F97316">
+
+  <!-- Google Fonts: Authentic 8-Bit Pixel Fonts (Pixelify Sans, Silkscreen, VT323) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=VT323&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome 6.5.1 CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Google Identity Services (Google Auth API) -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <style>
+    .about-page-header {
+      background: var(--hero-gradient);
+      padding: 3.5rem 0 2.5rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .breadcrumb-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .breadcrumb-nav a:hover {
+      color: var(--primary);
+    }
+
+    .about-story-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3.5rem;
+      align-items: center;
+      margin: 3.5rem 0;
+    }
+
+    .about-story-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-strong);
+      box-shadow: var(--shadow-md);
+      padding: 2.25rem;
+    }
+
+    .about-code-block {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      padding: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.825rem;
+      color: var(--text-body);
+      line-height: 1.7;
+    }
+
+    .about-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .pillar-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-sm);
+      padding: 1.75rem;
+      transition: all var(--transition-fast);
+    }
+
+    .pillar-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .pillar-icon-box {
+      width: 3.25rem;
+      height: 3.25rem;
+      background: var(--primary-light);
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.45rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .pillar-title {
+      font-size: 1.15rem;
+      color: var(--text-main);
+      margin-bottom: 0.65rem;
+    }
+
+    .pillar-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .metrics-banner {
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      text-align: center;
+      margin: 3.5rem 0;
+    }
+
+    @media (max-width: 900px) {
+      .about-story-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .about-pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .metrics-banner {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .about-pillars-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics-banner {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       1. NAVIGATION BAR
+       ============================================================ -->
+  <header class="site-header" role="banner">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo" aria-label="Eventora Home">
+        <div class="brand-icon" aria-hidden="true">
+          <svg class="brand-bolt-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.5" stroke-linejoin="miter"/>
+          </svg>
+        </div>
+        <span>EVENTORA</span>
+      </a>
+
+      <nav class="nav-menu" role="navigation" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="events.html" class="nav-link">Explore Events</a>
+        <a href="categories.html" class="nav-link">Categories</a>
+        <a href="about.html" class="nav-link active">About Us</a>
+        <a href="host.html" class="nav-link">Host Event</a>
+        <a href="registrations.html" class="nav-link">
+          My Tickets
+          <span class="nav-badge-pill reg-count-badge" style="display: none;">0</span>
+        </a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Theme Toggle -->
+        <button class="theme-toggle-btn" aria-label="Switch to Light Mode" title="Switch to Light Mode">
+          <svg class="theme-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.5" fill="#F97316" stroke="#000000" stroke-width="1.2"/>
+            <path d="M12 2V5M12 19V22M2 12H5M19 12H22M4.93 4.93L7.05 7.05M16.95 16.95L19.07 19.07M4.93 19.07L7.05 16.95M16.95 7.05L19.07 4.93" stroke="#F97316" stroke-width="2.5" stroke-linecap="square"/>
+          </svg>
+        </button>
+
+        <!-- Auth Slot (Login/Register or User Profile) -->
+        <div class="nav-auth-slot"></div>
+
+        <a href="host.html" class="btn btn-secondary btn-sm btn-explore-nav">
+          <i class="fa-solid fa-calendar-plus"></i> Host
+        </a>
+
+        <!-- Mobile Menu Hamburger -->
+        <button class="mobile-menu-btn" aria-label="Open mobile navigation menu" aria-expanded="false"
+          aria-controls="mobileNavDrawer">
+          <svg class="pixel-menu-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Backdrop & Menu -->
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+  <aside class="mobile-nav-drawer" id="mobileNavDrawer" aria-label="Mobile Navigation Menu">
+    <div class="mobile-drawer-header">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon" aria-hidden="true">
+          <svg class="brand-bolt-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.5" stroke-linejoin="miter"/>
+          </svg>
+        </div>
+        <span>EVENTORA</span>
+      </a>
+      <button class="mobile-drawer-close" aria-label="Close menu">
+        <svg class="pixel-close-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="mobile-drawer-links">
+      <a href="index.html" class="mobile-drawer-link">
+        <i class="fa-solid fa-house"></i> Home
+      </a>
+      <a href="events.html" class="mobile-drawer-link">
+        <i class="fa-solid fa-compass"></i> Explore Events
+      </a>
+      <a href="categories.html" class="mobile-drawer-link">
+        <i class="fa-solid fa-shapes"></i> Categories
+      </a>
+      <a href="about.html" class="mobile-drawer-link active">
+        <i class="fa-solid fa-circle-info"></i> About Us
+      </a>
+      <a href="host.html" class="mobile-drawer-link">
+        <i class="fa-solid fa-calendar-plus"></i> Host an Event
+      </a>
+      <a href="registrations.html" class="mobile-drawer-link">
+        <i class="fa-solid fa-ticket"></i> My Registrations
+        <span class="nav-badge-pill reg-count-badge" style="display: none;">0</span>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link">
+        <i class="fa-solid fa-envelope"></i> Contact Support
+      </a>
+    </div>
+
+    <div class="mobile-drawer-actions">
+      <!-- Mobile Auth Slot -->
+      <div class="mobile-auth-slot"></div>
+
+      <button class="btn btn-secondary btn-block theme-toggle-btn" aria-label="Switch to Light Mode">
+        <svg class="theme-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5" fill="#F97316" stroke="#000000" stroke-width="1.2"/>
+          <path d="M12 2V5M12 19V22M2 12H5M19 12H22M4.93 4.93L7.05 7.05M16.95 16.95L19.07 19.07M4.93 19.07L7.05 16.95M16.95 7.05L19.07 4.93" stroke="#F97316" stroke-width="2.5" stroke-linecap="square"/>
+        </svg>
+        <span class="theme-text">Light Mode</span>
+      </button>
+      <a href="events.html" class="btn btn-primary btn-block">
+        <i class="fa-solid fa-ticket"></i> Browse All Events
+      </a>
+    </div>
+  </aside>
+
+  <main id="mainContent">
+
+    <!-- ============================================================
+         2. PAGE HEADER BANNER
+         ============================================================ -->
+    <section class="about-page-header">
+      <div class="container">
+        <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+          <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+          <i class="fa-solid fa-chevron-right" style="font-size: 0.65rem;"></i>
+          <span style="color: var(--primary);">About Us</span>
+        </nav>
+
+        <div style="max-width: 820px;">
+          <div class="section-badge">
+            <i class="fa-solid fa-shield-halved"></i> Behind the Platform
+          </div>
+          <h1 class="hero-headline" style="margin-bottom: 0.85rem;">
+            Engineering the Future of Event Discovery
+          </h1>
+          <p class="section-subtitle">
+            Eventora was built on a simple conviction: discovering transformative experiences, locking in digital passes,
+            and scanning through turnstiles should be instant, transparent, and exhilarating.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         3. OUR STORY & PHILOSOPHY
+         ============================================================ -->
+    <section class="section" style="padding-top: 3.5rem; padding-bottom: 2rem;">
+      <div class="container">
+        <div class="about-story-grid">
+          <div>
+            <div class="section-badge" style="margin-bottom: 0.75rem;">
+              <i class="fa-solid fa-lightbulb"></i> The Problem We Solved
+            </div>
+            <h2 style="font-size: 1.75rem; color: var(--text-main); margin-bottom: 1.25rem;">
+              Traditional Ticketing is Broken. We Rebuilt It from the Ground Up.
+            </h2>
+            <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem;">
+              For decades, attending an event required navigating opaque ticketing platforms riddled with predatory surge fees,
+              convoluted checkout funnels, slow PDF attachment deliveries, and no clear way to verify organizer legitimacy.
+            </p>
+            <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+              Eventora changes that. We created a retro-futuristic, high-velocity platform inspired by modern developer terminal
+              simplicity. No surprise checkout taxes, instant digital pass issuance, Google Authentication integration, and
+              instant turnstile-ready QR codes that work offline.
+            </p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="events.html" class="btn btn-primary">
+                <i class="fa-solid fa-compass"></i> Explore All Events
+              </a>
+              <a href="host.html" class="btn btn-secondary">
+                <i class="fa-solid fa-calendar-plus"></i> Host with Eventora
+              </a>
+            </div>
+          </div>
+
+          <div class="about-story-card">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
+              <span style="font-family: var(--font-pixel-sm); font-size: 0.75rem; color: var(--primary);">
+                // SYSTEM_SPEC_v2.0
+              </span>
+              <span style="font-size: 0.75rem; color: #10B981; font-weight: 700;">● OPERATIONAL</span>
+            </div>
+            <div class="about-code-block">
+              &gt; PLATFORM: Eventora Discovery OS<br>
+              &gt; PROTOCOL: Turnstile QR v4<br>
+              &gt; ENCRYPTION: SHA-256 HMAC Passes<br>
+              &gt; THEME: Retro Pixel (Orange/Black/White)<br>
+              &gt; AUTH: Google GSI + Local Cache<br>
+              &gt; CHECKOUT_TIME: &lt; 8.4 seconds<br>
+              &gt; HIDDEN_FEES: 0.00% (Strict Guarantees)<br>
+              &gt; CANCELLATION: Instant Self-Service<br>
+              &gt; STATUS: 100% Verified Organizers
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics Banner -->
+        <div class="metrics-banner">
+          <div>
+            <div style="font-size: 2.25rem; font-weight: 800; color: var(--primary);">50,000+</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-top: 0.25rem;">Verified Attendees</div>
+          </div>
+          <div>
+            <div style="font-size: 2.25rem; font-weight: 800; color: var(--text-main);">500+</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-top: 0.25rem;">Live Summits &amp; Shows</div>
+          </div>
+          <div>
+            <div style="font-size: 2.25rem; font-weight: 800; color: var(--primary);">30+</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-top: 0.25rem;">Metropolitan Cities</div>
+          </div>
+          <div>
+            <div style="font-size: 2.25rem; font-weight: 800; color: var(--text-main);">99.4%</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-top: 0.25rem;">Satisfaction Score</div>
+          </div>
+        </div>
+
+        <!-- 6 Core Pillars Section -->
+        <div style="margin-top: 4rem;">
+          <div class="section-header">
+            <div class="section-badge">
+              <i class="fa-solid fa-gem"></i> Core Principles
+            </div>
+            <h2 class="section-title">The 6 Pillars of Eventora</h2>
+            <p class="section-subtitle">
+              Every design decision and engineering choice adheres strictly to these six foundational promises.
+            </p>
+          </div>
+
+          <div class="about-pillars-grid">
+            <!-- 1 -->
+            <div class="pillar-card">
+              <div class="pillar-icon-box">
+                <i class="fa-solid fa-qrcode"></i>
+              </div>
+              <h3 class="pillar-title">Instant Digital QR Passes</h3>
+              <p class="pillar-desc">
+                No delayed PDF attachments or printout mandates. Your pass is generated instantly upon registration with an encrypted turnstile-ready barcode.
+              </p>
+            </div>
+
+            <!-- 2 -->
+            <div class="pillar-card">
+              <div class="pillar-icon-box">
+                <i class="fa-solid fa-hand-holding-dollar"></i>
+              </div>
+              <h3 class="pillar-title">Zero Hidden Surcharges</h3>
+              <p class="pillar-desc">
+                The price you see is the exact price you pay. Free community workshops remain 100% free with zero platform convenience traps.
+              </p>
+            </div>
+
+            <!-- 3 -->
+            <div class="pillar-card">
+              <div class="pillar-icon-box">
+                <i class="fa-solid fa-certificate"></i>
+              </div>
+              <h3 class="pillar-title">Verified Organizers</h3>
+              <p class="pillar-desc">
+                Every conference, live concert, and athletic tournament is vetted for company credentials, physical venue safety, and schedule reliability.
+              </p>
+            </div>
+
+            <!-- 4 -->
+            <div class="pillar-card">
+              <div class="pillar-icon-box">
+                <i class="fa-solid fa-arrows-rotate"></i>
+              </div>
+              <h3 class="pillar-title">Self-Service Cancellations</h3>
+              <p class="pillar-desc">
+                Plans shift. Manage or cancel your ticket directly from your attendee portal in one click with instant automated seat replenishment.
+              </p>
+            </div>
+
+            <!-- 5 -->
+            <div class="pillar-card">
+              <div class="pillar-icon-box">
+                <i class="fa-solid fa-clock"></i>
+              </div>
+              <h3 class="pillar-title">Live Synchronized Timers</h3>
+              <p class="pillar-desc">
+                Real-time millisecond countdowns track gate openings, early-bird deadlines, and speaker keynotes across all timezones.
+              </p>
+            </div>
+
+            <!-- 6 -->
+            <div class="pillar-card">
+              <div class="pillar-icon-box">
+                <i class="fa-solid fa-shapes"></i>
+              </div>
+              <h3 class="pillar-title">Multi-Vertical Diversity</h3>
+              <p class="pillar-desc">
+                From deep-tech autonomous agent summits to live EDM amphitheaters, badminton cups, and stand-up comedy showcases in 30+ cities.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Join the Movement CTA -->
+        <div class="cta-card" style="margin-top: 4.5rem;">
+          <div class="cta-content">
+            <h2 class="cta-title">Ready to Experience the Eventora Difference?</h2>
+            <p class="cta-subtitle">
+              Browse premier future summits or partner with us to host your next flagship conference with automated turnstile passes.
+            </p>
+            <div class="cta-buttons">
+              <a href="events.html" class="btn btn-cta-light btn-lg">
+                <i class="fa-solid fa-compass"></i> Explore All Events
+              </a>
+              <a href="host.html" class="btn btn-cta-ghost btn-lg">
+                <i class="fa-solid fa-calendar-plus"></i> Host an Event
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       4. FOOTER
+       ============================================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="brand-logo">
+            <div class="brand-icon" aria-hidden="true">
+          <svg class="brand-bolt-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.5" stroke-linejoin="miter"/>
+          </svg>
+        </div>
+            <span>EVENTORA</span>
+          </a>
+          <p class="footer-brand-desc">
+            EVENTORA is a modern, pixelated platform for discovering, organizing, and attending world-class conferences,
+            concerts, and tournaments across India.
+          </p>
+          <div class="footer-social-links">
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-link"
+              aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link"
+              aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link"
+              aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-link"
+              aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">All Pages</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="events.html" class="footer-link">Explore Events</a></li>
+            <li><a href="categories.html" class="footer-link">Browse Categories</a></li>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+            <li><a href="host.html" class="footer-link">Host an Event</a></li>
+            <li><a href="contact.html" class="footer-link">Contact Support</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Top Categories</h4>
+          <ul class="footer-links-list">
+            <li><a href="events.html?cat=technology" class="footer-link">Technology &amp; AI</a></li>
+            <li><a href="events.html?cat=music" class="footer-link">Live Music &amp; EDM</a></li>
+            <li><a href="events.html?cat=business" class="footer-link">Business &amp; Startups</a></li>
+            <li><a href="events.html?cat=sports" class="footer-link">Sports Tournaments</a></li>
+            <li><a href="events.html?cat=workshops" class="footer-link">Hands-on Workshops</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">My Account &amp; Passes</h4>
+          <ul class="footer-links-list">
+            <li><a href="registrations.html" class="footer-link">My Registrations</a></li>
+            <li><a href="javascript:void(0)" onclick="AuthManager.openModal('login')" class="footer-link">Sign In / Register</a></li>
+            <li><a href="javascript:void(0)" onclick="InstantGatePassManager.openModal()" class="footer-link">Instant QR Gate Entry</a></li>
+            <li><a href="contact.html" class="footer-link">Help Desk &amp; FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 EVENTORA Inc. All rights reserved. Crafted with precision for the Web Designing Project.
+        </div>
+        <div class="footer-legal-links">
+          <a href="about.html" class="footer-link">About Us</a>
+          <a href="contact.html" class="footer-link">Support &amp; FAQ</a>
+          <a href="events.html" class="footer-link">All Events</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Instant Gate Modal -->
+  <div class="modal-overlay" id="instantGateModal" role="dialog" aria-modal="true" aria-labelledby="gateModalTitle">
+    <div class="modal-box modal-box-wide" style="max-width: 580px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div class="brand-icon" style="width: 2.25rem; height: 2.25rem; font-size: 1rem;" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM14 14h2v2h-2zM18 14h3v3h-3zM14 18h3v3h-3zM18 18h3v3h-3z"/>
+              <rect x="5" y="5" width="2" height="2" fill="#FFFFFF"/>
+              <rect x="17" y="5" width="2" height="2" fill="#FFFFFF"/>
+              <rect x="5" y="17" width="2" height="2" fill="#FFFFFF"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="modal-title" id="gateModalTitle" style="font-size: 1.15rem; margin-bottom: 0.15rem;">
+              Instant QR Gate Entry Pass
+            </h3>
+            <div style="font-size: 0.72rem; color: #10B981; font-weight: 700; display: flex; align-items: center; gap: 0.35rem;">
+              <span class="pulse-dot" style="width: 6px; height: 6px;"></span>
+              <span style="font-family: var(--font-pixel-sm); letter-spacing: 0.04em;">LIVE SYSTEM // TURNSTILE GATE READY</span>
+            </div>
+          </div>
+        </div>
+        <button class="modal-close-btn gate-modal-close" aria-label="Close gate pass modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="gateModalBody"></div>
+    </div>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTopBtn" aria-label="Back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- Global Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/registration.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/cursor-trail.js"></script>
+</body>
+
+</html>

@@ -58,27 +58,42 @@ const ThemeManager = {
   updateToggleIcons() {
     const isDark = this.currentTheme === 'dark';
     const togglers = document.querySelectorAll('.theme-toggle-btn');
-    togglers.forEach(btn => {
-      const icon = btn.querySelector('i');
-      const text = btn.querySelector('.theme-text');
 
-      if (isDark) {
-        if (icon) {
-          icon.className = 'fa-solid fa-moon';
-          icon.setAttribute('style', 'color: var(--primary); font-size: 1.1rem;');
-        }
-        if (text) text.textContent = 'Dark Mode';
-        btn.setAttribute('aria-label', 'Dark Mode active. Click to switch to Light Mode.');
-        btn.setAttribute('title', 'Dark Mode (Click to switch to Light Mode)');
-      } else {
-        if (icon) {
-          icon.className = 'fa-solid fa-sun';
-          icon.setAttribute('style', 'color: var(--primary); font-size: 1.1rem;');
-        }
-        if (text) text.textContent = 'Light Mode';
-        btn.setAttribute('aria-label', 'Light Mode active. Click to switch to Dark Mode.');
-        btn.setAttribute('title', 'Light Mode (Click to switch to Dark Mode)');
+    // High-contrast, pixel-crisp SVGs that never fail or show question mark glyphs
+    const sunSvg = `<svg class="theme-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="12" cy="12" r="4.5" fill="#F97316" stroke="#000000" stroke-width="1.2"/>
+      <path d="M12 2V5M12 19V22M2 12H5M19 12H22M4.93 4.93L7.05 7.05M16.95 16.95L19.07 19.07M4.93 19.07L7.05 16.95M16.95 7.05L19.07 4.93" stroke="#F97316" stroke-width="2.5" stroke-linecap="square"/>
+    </svg>`;
+
+    const moonSvg = `<svg class="theme-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" fill="#F97316" stroke="#000000" stroke-width="1.2"/>
+    </svg>`;
+
+    const targetSvg = isDark ? sunSvg : moonSvg;
+    const label = isDark ? 'Light Mode' : 'Dark Mode';
+    const actionLabel = isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+
+    togglers.forEach(btn => {
+      // Remove any legacy <i> tags
+      const legacyIcon = btn.querySelector('i');
+      if (legacyIcon) {
+        legacyIcon.remove();
       }
+
+      let svgEl = btn.querySelector('.theme-icon-svg');
+      if (svgEl) {
+        svgEl.outerHTML = targetSvg;
+      } else {
+        btn.insertAdjacentHTML('afterbegin', targetSvg);
+      }
+
+      const text = btn.querySelector('.theme-text');
+      if (text) {
+        text.textContent = label;
+      }
+
+      btn.setAttribute('aria-label', actionLabel);
+      btn.setAttribute('title', actionLabel);
     });
   },
 

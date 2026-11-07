@@ -394,7 +394,8 @@ ol {
   transform: translate(-1px, -1px);
 }
 
-.theme-toggle-btn:hover i {
+.theme-toggle-btn:hover i,
+.theme-toggle-btn:hover svg {
   transform: rotate(15deg) scale(1.1);
 }
 

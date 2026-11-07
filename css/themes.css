@@ -141,6 +141,91 @@
   text-rendering: geometricPrecision !important;
 }
 
+/* Strictly protect Font Awesome & Icon glyphs from being hijacked by pixel font */
+.fa,
+.fas,
+.far,
+.fal,
+.fad,
+.fab,
+.fa-solid,
+.fa-regular,
+.fa-brands,
+[class^="fa-"],
+[class*=" fa-"],
+.fa::before,
+.fas::before,
+.far::before,
+.fal::before,
+.fad::before,
+.fab::before,
+.fa-solid::before,
+.fa-regular::before,
+.fa-brands::before,
+[class^="fa-"]::before,
+[class*=" fa-"]::before {
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  line-height: 1 !important;
+  text-rendering: auto !important;
+  display: inline-block;
+}
+
+/* Specific Font Families & Exact Weights for Font Awesome 6 Free */
+.fa,
+.fas,
+.fa-solid,
+.fa::before,
+.fas::before,
+.fa-solid::before {
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 900 !important;
+}
+
+.far,
+.fa-regular,
+.far::before,
+.fa-regular::before {
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 400 !important;
+}
+
+.fab,
+.fa-brands,
+.fab::before,
+.fa-brands::before {
+  font-family: "Font Awesome 6 Brands" !important;
+  font-weight: 400 !important;
+}
+
+/* Bulletproof Inline SVG Icons (Zero Dependency, Never Missing/Tofu) */
+.brand-icon svg,
+.brand-bolt-svg {
+  display: block;
+  margin: auto;
+  pointer-events: none;
+  filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.4));
+}
+
+.theme-toggle-btn svg,
+.theme-icon-svg {
+  display: inline-block;
+  vertical-align: middle;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.mobile-menu-btn svg,
+.mobile-drawer-close svg,
+.pixel-menu-svg,
+.pixel-close-svg {
+  display: block;
+  margin: auto;
+  pointer-events: none;
+}
+
 /* Pixel Background Texture on Body */
 body {
   background-color: var(--bg-body);

@@ -9,7 +9,7 @@ const EVENT_CATEGORIES = [
   { id: 'technology', name: 'Technology', icon: 'fa-microchip', count: 3 },
   { id: 'music', name: 'Music & Concerts', icon: 'fa-music', count: 3 },
   { id: 'business', name: 'Business & Startups', icon: 'fa-briefcase', count: 2 },
-  { id: 'sports', name: 'Sports & Fitness', icon: 'fa-running', count: 2 },
+  { id: 'sports', name: 'Sports & Fitness', icon: 'fa-person-running', count: 2 },
   { id: 'education', name: 'Education & Academic', icon: 'fa-graduation-cap', count: 2 },
   { id: 'art', name: 'Art & Culture', icon: 'fa-palette', count: 2 },
   { id: 'workshops', name: 'Workshops & Bootcamps', icon: 'fa-laptop-code', count: 2 },

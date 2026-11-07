@@ -306,10 +306,20 @@ picture {
     display: none !important;
   }
 
-  .theme-toggle-btn {
+  .nav-actions .theme-toggle-btn {
     width: 2.25rem !important;
     height: 2.25rem !important;
     font-size: 1rem !important;
+  }
+
+  .mobile-drawer-actions .theme-toggle-btn {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 2.75rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.65rem !important;
   }
 
   .mobile-menu-btn {
